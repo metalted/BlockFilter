@@ -1,11 +1,28 @@
 ﻿using BepInEx;
 using HarmonyLib;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace BlockFilter
 {
+    public enum Filter
+    {
+        Road,
+        Tube,
+        HalfPipe,
+        Special,
+        Field,
+        Physics,
+        Straight,
+        Curve,
+        Sbend,       
+        Slope,
+        Tilted
+    }
+
     [BepInPlugin(pluginGUID, pluginName, pluginVersion)]
     public class Plugin : BaseUnityPlugin
     {
@@ -17,21 +34,77 @@ namespace BlockFilter
         public LEV_LevelEditorCentral central;
         public LEV_CustomButton buttonPrefab;
 
+        public int filterColumns = 6;
+        public int filterRows = 2;
+
+        private Dictionary<Filter, bool> filterStates;
+        private Dictionary<Filter, LEV_CustomButton> filterButtons;
+        private Dictionary<Filter, Sprite> filterSprites;
+
+        private readonly Color green = new Color(0.00f, 0.80f, 0.00f, 1.0f);
+        private readonly Color greenHover = new Color(0.00f, 1.00f, 0.00f, 1.0f);
+        private readonly Color greenActive = new Color(0.30f, 1.00f, 0.30f, 1.0f);
+        private readonly Color grey = new Color(1.00f, 0.91f, 0.45f, 1.0f);
+        private readonly Color greyHover = new Color(1.00f, 0.93f, 0.56f, 1.0f);
+        private readonly Color greyActive = new Color(1.00f, 0.95f, 0.73f, 1.0f);
+
         public void Awake()
         {
             Instance = this;
 
             Harmony harmony = new Harmony(pluginGUID);
             harmony.PatchAll();
+
+            filterStates = new Dictionary<Filter, bool>()
+            {
+                { Filter.Road, false },
+                { Filter.Tube, false },
+                { Filter.HalfPipe, false },
+                { Filter.Special, false },
+                { Filter.Field, false },
+                { Filter.Physics, false },
+                { Filter.Straight, false },
+                { Filter.Curve, false },
+                { Filter.Sbend, false },                
+                { Filter.Slope, false },
+                { Filter.Tilted, false }
+            };
+
+            Sprites.Initialize();
+            BlockData.Initialize();
         }
 
-        public void OnLevelEditor(LEV_LevelEditorCentral __instance)
+        #region Initialization
+        public void OnLevelInspector(LEV_Inspector instance)
         {
-            central = __instance;
+            central = instance.central;
+
+            List<BlockProperties> blockList = PlayerManager.Instance.loader.globalBlockList.blocks;
+
+            filterSprites = new Dictionary<Filter, Sprite>() {
+                { Filter.Road, blockList[0].thumbnail },
+                { Filter.Tube, blockList[56].thumbnail },
+                { Filter.HalfPipe, blockList[20].thumbnail },
+                { Filter.Straight, Sprites.straightSprite },
+                { Filter.Curve, Sprites.curveSprite },
+                { Filter.Sbend, Sprites.sbendSprite },
+                { Filter.Special, blockList[2].thumbnail },
+                { Filter.Slope, Sprites.slopeSprite },
+                { Filter.Tilted, Sprites.tiltSprite },
+                { Filter.Field, blockList[1746].thumbnail },
+                { Filter.Physics, blockList[1280].thumbnail }
+            };
 
             CreateButtonPrefab();
+            GenerateFilterButtons(instance, new Vector2(0.1f, 0.81f), new Vector2(0.9f, 0.94f), filterColumns, filterRows, 0.02f);
 
-            GenerateFilterButtons();
+            //Move the titles to make room for the buttons
+            instance.inspectorTitle.rectTransform.anchorMin = new Vector2(0.51f, 0.95f);
+            instance.inspectorTitle.rectTransform.anchorMax = new Vector2(0.9f, 0.98f);
+
+            RectTransform mainTitle = instance.transform.GetChild(0).GetComponent<RectTransform>();
+            mainTitle.anchorMin = new Vector2(0.1f, 0.95f);
+            mainTitle.anchorMax = new Vector2(0.5f, 0.98f);
         }
 
         private void CreateButtonPrefab()
@@ -61,25 +134,256 @@ namespace BlockFilter
             buttonPrefab.gameObject.SetActive(false);
         }
 
-        private void GenerateFilterButtons()
+        private void GenerateFilterButtons(LEV_Inspector instance, Vector2 anchorMin, Vector2 anchorMax, int columns, int rows, float paddingPercentage)
         {
-            
+            filterButtons = new Dictionary<Filter, LEV_CustomButton>();
+
+            // Get the block GUI parent
+            Transform buttonParent = instance.inspectorTitle.transform.parent;
+
+            // Calculate the total width and height of the area
+            float totalWidth = anchorMax.x - anchorMin.x;
+            float totalHeight = anchorMax.y - anchorMin.y;
+
+            // Calculate total padding space
+            float totalHorizontalPadding = totalWidth * paddingPercentage; // Total horizontal padding space
+            float totalVerticalPadding = totalHeight * paddingPercentage;  // Total vertical padding space
+
+            // Calculate individual padding
+            float horizontalPadding = totalHorizontalPadding / (columns - 1); // Horizontal padding between buttons
+            float verticalPadding = totalVerticalPadding / (rows - 1);        // Vertical padding between buttons
+
+            // Adjust cell dimensions to account for padding
+            float cellWidth = (totalWidth - totalHorizontalPadding) / columns; // Width of each cell without horizontal padding
+            float cellHeight = (totalHeight - totalVerticalPadding) / rows;    // Height of each cell without vertical padding
+
+            int index = 0; // Index to track the button position in the grid
+
+            foreach (var filter in filterStates)
+            {
+                // Create a new button
+                GameObject copy = GameObject.Instantiate(buttonPrefab.gameObject, buttonParent);
+                copy.gameObject.name = $"{filter.Key} Filter Button";
+                copy.gameObject.SetActive(true);
+
+                LEV_CustomButton button = copy.GetComponent<LEV_CustomButton>();
+                Filter currentFilter = filter.Key; // Capture the current filter for the lambda
+                button.onClick.AddListener(() =>
+                {
+                    filterStates[currentFilter] = !filterStates[currentFilter];
+                    instance.CreateBlockGUI();
+                });
+
+                button.transform.GetChild(0).GetComponent<Image>().sprite = filterSprites[currentFilter];
+
+                // Calculate grid position
+                int column = index % columns;
+                int row = index / columns;
+
+                // Calculate button anchors, including both horizontal and vertical padding
+                float buttonAnchorMinX = anchorMin.x + column * (cellWidth + horizontalPadding);
+                float buttonAnchorMaxX = buttonAnchorMinX + cellWidth;
+                float buttonAnchorMaxY = anchorMax.y - row * (cellHeight + verticalPadding);
+                float buttonAnchorMinY = buttonAnchorMaxY - cellHeight;
+
+                // Set button anchors
+                RectTransform rect = button.GetComponent<RectTransform>();
+                rect.anchorMin = new Vector2(buttonAnchorMinX, buttonAnchorMinY);
+                rect.anchorMax = new Vector2(buttonAnchorMaxX, buttonAnchorMaxY);
+                rect.offsetMin = rect.offsetMax = Vector2.zero; // Remove any offsets
+
+                filterButtons.Add(currentFilter, button);
+
+                try
+                {
+                    ZeepSDK.UI.UIApi.AddTooltip(button.gameObject, currentFilter.ToString());
+                }
+                catch(Exception e) 
+                {
+                    Debug.LogWarning(e.Message);
+                }
+
+                index++;
+            }
         }
-    }
-    public enum Filter
-    {
-        Road,
-        Tube,
-        HalfPipe,
-        Straight,
-        Curve,
-        Sbend,
-        Special,
-        Slope,
-        Tilted,
-        Field,
-        Physics
-    }
+        #endregion
+
+        public void OnCreateNotBlockGUI(LEV_Inspector instance)
+        {
+            //Make sure all buttons are disabled
+            foreach (KeyValuePair<Filter, LEV_CustomButton> kvp in filterButtons)
+            {
+                kvp.Value.gameObject.SetActive(false);
+            };
+        }
+
+        public bool OnCreateBlockGUI(LEV_Inspector instance)
+        {
+            //Make sure all buttons are enabled
+            foreach(KeyValuePair<Filter, LEV_CustomButton> kvp in filterButtons)
+            {
+                kvp.Value.gameObject.SetActive(true);
+            };
+
+            //Get the currently applied filters.
+            List<Filter> filters = GetCurrentFilters();
+
+            //If no filters are applied return true
+            if(filters.Count == 0)
+            {
+                instance.DestroyBlockGUI();
+                instance.isPopulated = false;
+                UpdateFilterButtons(instance);
+                return true;
+            }
+
+            //Get all block IDs that match the filter.
+            List<int> matches = BlockData.GetBlocksMatchingAllFilters(filters);
+
+            //Create the block gui and return false.
+            GenerateBlockGUI(instance, matches);
+
+            return false;
+        }
+
+        private List<Filter> GetCurrentFilters()
+        {
+            List<Filter> applied = new List<Filter>();
+            foreach (KeyValuePair<Filter, bool> kvp in filterStates)
+            {
+                if (kvp.Value)
+                {
+                    applied.Add(kvp.Key);
+                }
+            }
+
+            return applied;
+        }
+
+        public void GenerateBlockGUI(LEV_Inspector instance, List<int> blockIDs)
+        {
+            instance.inspectorTitle.text = I2.Loc.LocalizationManager.GetTranslation("Editor_Select_Block");
+
+            //Set the position for the inspector title to make room for the filter buttons
+
+            if (instance.isPopulated)
+            {
+                instance.DestroyBlockGUI();
+                instance.isPopulated = false;
+            }
+
+            //Generate the filter buttons in their current state.
+            UpdateFilterButtons(instance);
+
+            //Determine layout
+            int horizontalAmount = instance.GetHorizontalAmount();
+            int totalBlocks = blockIDs.Count;
+            float width = instance.contentBox.rect.width;
+            float rows = Mathf.Ceil((float)totalBlocks / horizontalAmount);
+            instance.contentBox.sizeDelta = new Vector2(0.0f, width);
+
+            //Create a button for each block
+            for (int i = 0; i < totalBlocks; i++)
+            {
+                //Instantiate button
+                ThumbnailButton thumbnailButton = GameObject.Instantiate<ThumbnailButton>(instance.buttonPrefab2);
+                thumbnailButton.button.central = instance.central;
+                instance.blockThumbImages.Add(thumbnailButton.thumbnailImage);
+
+                //Get blockproperties
+                int blockID = blockIDs[i];
+                BlockProperties block = PlayerManager.Instance.loader.globalBlockList.blocks[blockID];
+
+                //Setup button actions
+                instance.blockThumbImages[i].sprite = block.thumbnail;
+                thumbnailButton.button.onClick.AddListener(() => instance.central.gizmos.CreateNewBlock(blockID));
+                string localizedName = block.bridge.localizedName;
+                thumbnailButton.button.onHoverEnter.AddListener(() => instance.BlockHoverEnter(blockID, localizedName));
+                thumbnailButton.button.onHoverExit.AddListener(() => instance.BlockHoverExit());
+                thumbnailButton.ApplyIcon(block.thumbnail_icon);
+
+                //Set button parent and layout
+                thumbnailButton.transform.SetParent(instance.contentBox, false);
+                RectTransform rectTransform = thumbnailButton.GetComponent<RectTransform>();
+
+                if (i == 0)
+                {
+                    instance.testRect = rectTransform;
+                }
+
+                float row = Mathf.Floor((float)i / horizontalAmount);
+                float col = i % horizontalAmount;
+                float colWidth = 1f / horizontalAmount;
+                float rowHeight = 1f / rows;
+
+                float x1 = col * colWidth;
+                float x2 = x1 + colWidth;
+                float y1 = 1f - (row * rowHeight);
+                float y2 = y1 - rowHeight;
+
+                rectTransform.anchorMin = new Vector2(x1, y2);
+                rectTransform.anchorMax = new Vector2(x2, y1);
+
+                instance.allButtons2.Add(thumbnailButton);
+            }
+
+            //Update button aspects and scrollbar
+            instance.UpdateButtonAspects();
+            instance.currentBlockIndicator.SetSiblingIndex(99999);
+            instance.currentBlockIndicator.gameObject.SetActive(false);
+            instance.isPopulated = true;
+            instance.scrollbar.value = instance.rememberScrollbarValue;
+        }
+
+        public void UpdateFilterButtons(LEV_Inspector instance)
+        {
+            foreach(KeyValuePair<Filter, LEV_CustomButton> kvp in filterButtons)
+            {
+                if (filterStates[kvp.Key])
+                {
+                    StandardRecolorEnabledButton(kvp.Value);
+                }
+                else
+                {
+                    StandardRecolorDisabledButton(kvp.Value);
+                }
+            }
+        }
+
+        private void RecolorButton(LEV_CustomButton button, Color normalColor, Color hoverColor, Color clickColor, bool recolorAllNormal = false)
+        {
+            button.normalColor = normalColor;
+            button.overrideNormalColor = true;
+            button.buttonImage.color = normalColor;
+            button.hoverColor = hoverColor;
+            button.clickColor = clickColor;
+            button.isDisabled_clickColor = clickColor;
+            button.isDisabled_hoverColor = hoverColor;
+            button.isDisabled_normalColor = normalColor;
+
+            if (recolorAllNormal)
+            {
+                button.clickColor = normalColor;
+                button.hoverColor = normalColor;
+                button.normalColor = normalColor;
+                button.selectedColor = normalColor;
+                button.isDisabled_clickColor = normalColor;
+                button.isDisabled_hoverColor = normalColor;
+                button.isDisabled_normalColor = normalColor;
+                button.isDisabled_selectedColor = normalColor;
+            }
+        }
+
+        private void StandardRecolorDisabledButton(LEV_CustomButton button)
+        {
+            RecolorButton(button, grey, greyHover, greyActive, false);
+        }
+
+        private void StandardRecolorEnabledButton(LEV_CustomButton button)
+        {
+            RecolorButton(button, green, greenHover, greenActive, false);
+        }
+    }   
 
     public static class BlockData
     {
@@ -89,7 +393,7 @@ namespace BlockFilter
 
         public static void Initialize()
         {
-            if(init)
+            if (init)
             {
                 return;
             }
@@ -97,6 +401,21 @@ namespace BlockFilter
             CreateBlockData();
 
             init = true;
+        }
+
+        // Add block and its tags
+        private static void AddBlockTags(int blockID, params Filter[] tags)
+        {
+            blockTags[blockID] = new HashSet<Filter>(tags);
+        }
+
+        // Get all block IDs matching all the filters
+        public static List<int> GetBlocksMatchingAllFilters(List<Filter> filters)
+        {
+            return blockTags
+                .Where(kvp => filters.All(filter => kvp.Value.Contains(filter))) // Ensure all filters match
+                .Select(kvp => kvp.Key) // Select matching block IDs
+                .ToList();
         }
 
         private static void CreateBlockData()
@@ -280,31 +599,52 @@ namespace BlockFilter
             AddBlockTags(1215, Filter.Road, Filter.Straight, Filter.Tilted);
             AddBlockTags(1216, Filter.Road, Filter.Straight, Filter.Tilted, Filter.Slope);
             AddBlockTags(1217, Filter.Road, Filter.Straight, Filter.Tilted, Filter.Slope);
-        }
+        }        
+    }
 
-        // Add block and its tags
-        private static void AddBlockTags(int blockID, params Filter[] tags)
+    [HarmonyPatch(typeof(LEV_Inspector), "CreateBlockGUI")]
+    public class LEV_InspectorCreateBlockGUIPatch
+    {
+        public static bool Prefix(LEV_Inspector __instance)
         {
-            blockTags[blockID] = new HashSet<Filter>(tags);
-        }
-
-        // Get all block IDs matching all the filters
-        public static List<int> GetBlocksMatchingAllFilters(List<Filter> filters)
-        {
-            return blockTags
-                .Where(kvp => filters.All(filter => kvp.Value.Contains(filter))) // Ensure all filters match
-                .Select(kvp => kvp.Key) // Select matching block IDs
-                .ToList();
+            return Plugin.Instance.OnCreateBlockGUI(__instance);
         }
     }
 
-    //When we enter the level editor, get an empty copy of some button we can reuse for the filter.
-    [HarmonyPatch(typeof(LEV_LevelEditorCentral), "Awake")]
-    public class LEV_LevelEditorCentralAwakePatch
+    [HarmonyPatch(typeof(LEV_Inspector), "CreatePaintGUI")]
+    public class LEV_InspectorCreatePaintGUIPatch
     {
-        public static void Postfix(LEV_LevelEditorCentral __instance)
+        public static void Prefix(LEV_Inspector __instance)
         {
-            Plugin.Instance.OnLevelEditor(__instance);
+            Plugin.Instance.OnCreateNotBlockGUI(__instance);
+        }
+    }
+
+    [HarmonyPatch(typeof(LEV_Inspector), "CreateTreeGUI")]
+    public class LEV_InspectorCreateTreeGUIPatch
+    {
+        public static void Prefix(LEV_Inspector __instance)
+        {
+            Plugin.Instance.OnCreateNotBlockGUI(__instance);
+        }
+    }
+
+    [HarmonyPatch(typeof(LEV_Inspector), "CreateInspectorUI")]
+    public class LEV_InspectorCreateInspectorUIPatch
+    {
+        public static void Prefix(LEV_Inspector __instance)
+        {
+            Plugin.Instance.OnCreateNotBlockGUI(__instance);
+        }
+    }
+
+    [HarmonyPatch(typeof(LEV_Inspector), "Awake")]
+    public class LEV_LevelInspectorAwakePatch
+    {
+        public static void Postfix(LEV_Inspector __instance)
+        {
+            Plugin.Instance.OnLevelInspector(__instance);
         }
     }
 }
+    
