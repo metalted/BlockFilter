@@ -41,8 +41,8 @@ namespace BlockFilter
 
             filters = new Dictionary<PaintFilter, FilterObject>();
             filters.Add(PaintFilter.Red, new FilterObject("Red"));
-            filters.Add(PaintFilter.Orange, new FilterObject("Red"));
-            filters.Add(PaintFilter.Yellow, new FilterObject("Red"));
+            filters.Add(PaintFilter.Orange, new FilterObject("Orange"));
+            filters.Add(PaintFilter.Yellow, new FilterObject("Yellow"));
             filters.Add(PaintFilter.Green, new FilterObject("Green"));
             filters.Add(PaintFilter.Blue, new FilterObject("Blue"));
             filters.Add(PaintFilter.Purple, new FilterObject("Purple"));

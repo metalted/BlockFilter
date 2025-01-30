@@ -162,6 +162,7 @@ namespace BlockFilter
 
             //Determine layout
             int horizontalAmount = instance.GetHorizontalAmount();
+            instance.createBlocksGUI.gameObject.SetActive(true);
             int totalPaints = paintIDs.Count;
             float width = instance.contentBox.rect.width;
             float rows = Mathf.Ceil((float)totalPaints / horizontalAmount);
@@ -218,7 +219,7 @@ namespace BlockFilter
             //Update button aspects and scrollbar
             instance.UpdateButtonAspects();
             instance.currentBlockIndicator.SetSiblingIndex(99999);
-            instance.currentBlockIndicator.gameObject.SetActive(true);
+            instance.currentBlockIndicator.gameObject.SetActive(false);
             instance.isPopulated = true;
             instance.scrollbar.value = instance.rememberScrollbarValue;
         }
@@ -317,6 +318,15 @@ namespace BlockFilter
         }
     }
 
+    [HarmonyPatch(typeof(LEV_Inspector), "CreatePaintGUI")]
+    public class LEV_InspectorCreatePaintGUIPatchPost
+    {
+        public static void Postfix(LEV_Inspector __instance)
+        {
+            __instance.PositionIndicator(-1, false, "");
+        }
+    }
+
     [HarmonyPatch(typeof(LEV_Inspector), "CreateTreeGUI")]
     public class LEV_InspectorCreateTreeGUIPatch
     {
@@ -341,6 +351,15 @@ namespace BlockFilter
         public static void Postfix(LEV_Inspector __instance)
         {
             Plugin.Instance.OnLevelInspector(__instance);
+        }
+    }
+
+    [HarmonyPatch(typeof(LEV_Inspector), "PositionIndicator")]
+    public class TestTest
+    {
+        public static void Postfix(ref int i, ref bool activateIndocator, ref string nameText)
+        {
+            Debug.LogWarning(i + "," + activateIndocator + "," + nameText);
         }
     }
 }
