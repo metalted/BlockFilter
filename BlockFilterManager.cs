@@ -29,7 +29,7 @@ namespace BlockFilter
             filters = new Dictionary<BlockFilter, FilterObject>();
             filters.Add(BlockFilter.Road, new FilterObject("Road"));
             filters.Add(BlockFilter.Tube, new FilterObject("Tube"));
-            filters.Add(BlockFilter.HalfPipe, new FilterObject("Half Pipe"));
+            filters.Add(BlockFilter.HalfPipe, new FilterObject("Wallride"));
             filters.Add(BlockFilter.Special, new FilterObject("Special"));
             filters.Add(BlockFilter.Field, new FilterObject("Field"));
             filters.Add(BlockFilter.Physics, new FilterObject("Physics"));
@@ -38,6 +38,8 @@ namespace BlockFilter
             filters.Add(BlockFilter.Sbend, new FilterObject("S-Bend"));
             filters.Add(BlockFilter.Slope, new FilterObject("Slope"));
             filters.Add(BlockFilter.Tilted, new FilterObject("Tilted"));
+            filters.Add(BlockFilter.Transition, new FilterObject("Transition"));
+            filters.Add(BlockFilter.Irregular, new FilterObject("Irregular"));
         }
 
         public void ClearAll()
@@ -99,6 +101,8 @@ namespace BlockFilter
             filters[BlockFilter.Sbend].Sprite = Sprites.sbendSprite;
             filters[BlockFilter.Slope].Sprite = Sprites.slopeSprite;
             filters[BlockFilter.Tilted].Sprite = Sprites.tiltSprite;
+            filters[BlockFilter.Transition].Sprite = blockList[2261].thumbnail;
+            filters[BlockFilter.Irregular].Sprite = blockList[315].thumbnail;
         }
 
         public void GenerateFilterButtons(LEV_Inspector instance, LEV_CustomButton buttonPrefab)

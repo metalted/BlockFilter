@@ -8,6 +8,20 @@ using UnityEngine.UI;
 
 namespace BlockFilter
 {
+    public enum PaintFilter
+    {
+        Transparent,
+        Physics,
+        Reflective,
+        Red,
+        Orange,
+        Yellow,
+        Green,
+        Blue,
+        Purple,
+        Grayscale
+    }
+
     public class PaintFilterManager
     {
         private int Columns;
@@ -27,11 +41,15 @@ namespace BlockFilter
 
             filters = new Dictionary<PaintFilter, FilterObject>();
             filters.Add(PaintFilter.Red, new FilterObject("Red"));
-            filters.Add(PaintFilter.Blue, new FilterObject("Blue"));
+            filters.Add(PaintFilter.Orange, new FilterObject("Red"));
+            filters.Add(PaintFilter.Yellow, new FilterObject("Red"));
             filters.Add(PaintFilter.Green, new FilterObject("Green"));
-            filters.Add(PaintFilter.Grayscale, new FilterObject("Greyscale"));
+            filters.Add(PaintFilter.Blue, new FilterObject("Blue"));
+            filters.Add(PaintFilter.Purple, new FilterObject("Purple"));
+            filters.Add(PaintFilter.Grayscale, new FilterObject("Grayscale"));
             filters.Add(PaintFilter.Transparent, new FilterObject("Transparent"));
             filters.Add(PaintFilter.Physics, new FilterObject("Physics"));
+            filters.Add(PaintFilter.Reflective, new FilterObject("Reflective"));
         }
 
         public void ClearAll()
@@ -56,7 +74,7 @@ namespace BlockFilter
         {
             foreach (KeyValuePair<PaintFilter, FilterObject> kvp in filters)
             {
-                if(kvp.Key == PaintFilter.Transparent || kvp.Key == PaintFilter.Physics)
+                if (kvp.Key == PaintFilter.Transparent || kvp.Key == PaintFilter.Physics || kvp.Key == PaintFilter.Reflective)
                 {
                     if(!includePropertyFilters)
                     {
@@ -88,7 +106,16 @@ namespace BlockFilter
 
         public void AssignSprites()
         {
-            //... Get the paint sprites.
+            filters[PaintFilter.Red].Sprite = MaterialManager.AllMaterials[285].thumbnail;
+            filters[PaintFilter.Orange].Sprite = MaterialManager.AllMaterials[286].thumbnail;
+            filters[PaintFilter.Yellow].Sprite = MaterialManager.AllMaterials[288].thumbnail;
+            filters[PaintFilter.Green].Sprite = MaterialManager.AllMaterials[297].thumbnail;
+            filters[PaintFilter.Blue].Sprite = MaterialManager.AllMaterials[292].thumbnail;
+            filters[PaintFilter.Purple].Sprite = MaterialManager.AllMaterials[304].thumbnail;
+            filters[PaintFilter.Grayscale].Sprite = MaterialManager.AllMaterials[126].thumbnail;
+            filters[PaintFilter.Transparent].Sprite = MaterialManager.AllMaterials[280].thumbnail;
+            filters[PaintFilter.Physics].Sprite = MaterialManager.AllMaterials[90].thumbnail;
+            filters[PaintFilter.Reflective].Sprite = MaterialManager.AllMaterials[83].thumbnail;
         }
 
         public void GenerateFilterButtons(LEV_Inspector instance, LEV_CustomButton buttonPrefab)
@@ -124,7 +151,7 @@ namespace BlockFilter
                 LEV_CustomButton button = copy.GetComponent<LEV_CustomButton>();
                 button.onClick.AddListener(() =>
                 {
-                    if(kvp.Key == PaintFilter.Physics || kvp.Key == PaintFilter.Transparent)
+                    if(kvp.Key == PaintFilter.Physics || kvp.Key == PaintFilter.Transparent || kvp.Key == PaintFilter.Reflective)
                     {
                         filters[kvp.Key].State = !filters[kvp.Key].State;
                     }

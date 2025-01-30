@@ -38,7 +38,12 @@ namespace BlockFilter
 
         private static void CreatePaintData()
         {
-            //...
+            AddPaintTags(283, PaintFilter.Red);
+            AddPaintTags(284, PaintFilter.Red);
+            AddPaintTags(285, PaintFilter.Red);
+            AddPaintTags(286, PaintFilter.Yellow);
+            AddPaintTags(287, PaintFilter.Yellow);
+            AddPaintTags(288, PaintFilter.Yellow);
         }
     }
 }

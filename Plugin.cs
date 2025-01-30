@@ -6,33 +6,9 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
+//Revert the titles for the inspector gui and the tree gui.
 namespace BlockFilter
 {
-    public enum BlockFilter
-    {
-        Road,
-        Tube,
-        HalfPipe,
-        Special,
-        Field,
-        Physics,
-        Straight,
-        Curve,
-        Sbend,
-        Slope,
-        Tilted
-    }
-
-    public enum PaintFilter
-    {
-        Transparent,
-        Physics,
-        Red,
-        Green,
-        Blue,
-        Grayscale
-    }
-
     [BepInPlugin(pluginGUID, pluginName, pluginVersion)]
     public class Plugin : BaseUnityPlugin
     {
@@ -57,8 +33,8 @@ namespace BlockFilter
             BlockData.Initialize();
             PaintData.Initialize();
 
-            blockFilter = new BlockFilterManager(6, 2, 0.01f, new Vector2(0.1f, 0.81f), new Vector2(0.9f, 0.94f));
-            paintFilter = new PaintFilterManager(6, 2, 0.01f, new Vector2(0.1f, 0.81f), new Vector2(0.9f, 0.94f));
+            blockFilter = new BlockFilterManager(6, 3, 0.01f, new Vector2(0.1f, 0.81f), new Vector2(0.9f, 0.94f));
+            paintFilter = new PaintFilterManager(5, 2, 0.01f, new Vector2(0.1f, 0.81f), new Vector2(0.9f, 0.94f));
         }
 
         public void OnLevelInspector(LEV_Inspector instance)
@@ -70,6 +46,11 @@ namespace BlockFilter
             blockFilter.ClearAll();
             blockFilter.AssignSprites();
             blockFilter.GenerateFilterButtons(instance, buttonPrefab);
+
+            paintFilter.ClearAll();
+            paintFilter.AssignSprites();
+            paintFilter.GenerateFilterButtons(instance, buttonPrefab);
+            paintFilter.SetButtonVisibility(false);
 
             //Move the titles to make room for the buttons
             instance.inspectorTitle.rectTransform.anchorMin = new Vector2(0.51f, 0.95f);
@@ -107,14 +88,10 @@ namespace BlockFilter
             buttonPrefab.gameObject.SetActive(false);
         }       
 
-        public void OnCreateNotBlockGUI(LEV_Inspector instance)
-        {
-            
-        }
-
         public bool OnCreateBlockGUI(LEV_Inspector instance)
         {
             blockFilter.SetButtonVisibility(true);
+            paintFilter.SetButtonVisibility(false);
 
             //Get the currently applied filters.
             List<BlockFilter> filters = blockFilter.GetCurrentActiveFilters();
@@ -139,7 +116,24 @@ namespace BlockFilter
         
         public bool OnCreatePaintGUI(LEV_Inspector instance)
         {
-            return true;
+            paintFilter.SetButtonVisibility(true);
+            blockFilter.SetButtonVisibility(false);
+
+            List<PaintFilter> filters = paintFilter.GetCurrentActiveFilters();
+
+            if(filters.Count == 0)
+            {
+                instance.DestroyBlockGUI();
+                instance.isPopulated = false;
+                paintFilter.UpdateButtonColors();
+                return true;
+            }
+
+            List<int> matches = PaintData.GetPaintsMatchingAllFilters(filters);
+
+            GeneratePaintGUI(instance, matches);
+
+            return false;
         }
 
         public void OnCreateTreeGUI(LEV_Inspector instance)
@@ -152,6 +146,81 @@ namespace BlockFilter
         {
             blockFilter.SetButtonVisibility(false);
             paintFilter.SetButtonVisibility(false);
+        }
+
+        public void GeneratePaintGUI(LEV_Inspector instance, List<int> paintIDs)
+        {
+            instance.inspectorTitle.text = I2.Loc.LocalizationManager.GetTranslation("Editor_Select_Material");
+
+            if(instance.isPopulated)
+            {
+                instance.DestroyBlockGUI();
+                instance.isPopulated = false;
+            }
+
+            paintFilter.UpdateButtonColors();
+
+            //Determine layout
+            int horizontalAmount = instance.GetHorizontalAmount();
+            int totalPaints = paintIDs.Count;
+            float width = instance.contentBox.rect.width;
+            float rows = Mathf.Ceil((float)totalPaints / horizontalAmount);
+            instance.contentBox.sizeDelta = new Vector2(0.0f, width);
+
+            //Create a button for each block
+            for (int i = 0; i < totalPaints; i++)
+            {
+                //Instantiate button
+                ThumbnailButton thumbnailButton = GameObject.Instantiate<ThumbnailButton>(instance.buttonPrefab2);
+                thumbnailButton.button.central = instance.central;
+                instance.blockThumbImages.Add(thumbnailButton.thumbnailImage);
+
+                //Get blockproperties
+                int paintID = paintIDs[i];
+                MaterialHolder paint = MaterialManager.AllMaterials[paintID];
+
+                //Setup button actions
+                instance.blockThumbImages[i].sprite = paint.thumbnail;
+                thumbnailButton.button.onClick.AddListener(() => instance.central.painter.SetToCurrentPaint(paint));
+                string localizedName = paint.localizedName;
+                int indicatorPosition = i;
+
+                thumbnailButton.button.onClick.AddListener(() => instance.PositionIndicator(indicatorPosition, true, instance.GetBlockName(paintID.ToString(), localizedName)));
+                thumbnailButton.button.onHoverEnter.AddListener(() => instance.BlockHoverEnter(paintID, localizedName));
+                thumbnailButton.button.onHoverExit.AddListener(() => instance.BlockHoverExit());
+                thumbnailButton.ApplyIcon(paint.thumbnail_icon);
+
+                //Set button parent and layout
+                thumbnailButton.transform.SetParent(instance.contentBox, false);
+                RectTransform rectTransform = thumbnailButton.GetComponent<RectTransform>();
+
+                if (i == 0)
+                {
+                    instance.testRect = rectTransform;
+                }
+
+                float row = Mathf.Floor((float)i / horizontalAmount);
+                float col = i % horizontalAmount;
+                float colWidth = 1f / horizontalAmount;
+                float rowHeight = 1f / rows;
+
+                float x1 = col * colWidth;
+                float x2 = x1 + colWidth;
+                float y1 = 1f - (row * rowHeight);
+                float y2 = y1 - rowHeight;
+
+                rectTransform.anchorMin = new Vector2(x1, y2);
+                rectTransform.anchorMax = new Vector2(x2, y1);
+
+                instance.allButtons2.Add(thumbnailButton);
+            }
+
+            //Update button aspects and scrollbar
+            instance.UpdateButtonAspects();
+            instance.currentBlockIndicator.SetSiblingIndex(99999);
+            instance.currentBlockIndicator.gameObject.SetActive(true);
+            instance.isPopulated = true;
+            instance.scrollbar.value = instance.rememberScrollbarValue;
         }
 
         public void GenerateBlockGUI(LEV_Inspector instance, List<int> blockIDs)
