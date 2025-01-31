@@ -40,6 +40,7 @@ namespace BlockFilter
             filters.Add(BlockFilter.Tilted, new FilterObject("Tilted"));
             filters.Add(BlockFilter.Transition, new FilterObject("Transition"));
             filters.Add(BlockFilter.Irregular, new FilterObject("Irregular"));
+            filters.Add(BlockFilter.ClearAll, new FilterObject("Clear All"));
         }
 
         public void ClearAll()
@@ -107,6 +108,7 @@ namespace BlockFilter
             filters[BlockFilter.Tilted].Sprite = Sprites.tiltSprite;
             filters[BlockFilter.Transition].Sprite = blockList[2261].thumbnail;
             filters[BlockFilter.Irregular].Sprite = blockList[315].thumbnail;
+            filters[BlockFilter.ClearAll].Sprite = Sprites.xSprite;
         }
 
         public void GenerateFilterButtons(LEV_Inspector instance, LEV_CustomButton buttonPrefab)
@@ -142,18 +144,25 @@ namespace BlockFilter
                 LEV_CustomButton button = copy.GetComponent<LEV_CustomButton>();
                 button.onClick.AddListener(() =>
                 {
-                    switch (filters[kvp.Key].State)
+                    if (kvp.Key == BlockFilter.ClearAll)
                     {
-                        case FilterState.Off:
-                            filters[kvp.Key].State = FilterState.Enabled;
-                            break;
-                        case FilterState.Enabled:
-                            filters[kvp.Key].State = FilterState.Disabled;
-                            break;
-                        case FilterState.Disabled:
-                            filters[kvp.Key].State = FilterState.Off;
-                            break;
+                        ResetAllSelections();
                     }
+                    else
+                    {
+                        switch (filters[kvp.Key].State)
+                        {
+                            case FilterState.Off:
+                                filters[kvp.Key].State = FilterState.Enabled;
+                                break;
+                            case FilterState.Enabled:
+                                filters[kvp.Key].State = FilterState.Disabled;
+                                break;
+                            case FilterState.Disabled:
+                                filters[kvp.Key].State = FilterState.Off;
+                                break;
+                        }
+                    }                   
 
                     instance.CreateBlockGUI();
                 });

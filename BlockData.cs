@@ -20,7 +20,8 @@ namespace BlockFilter
         Slope,
         Tilted,
         Irregular,
-        Transition
+        Transition,
+        ClearAll
     }
 
     //Transition BlockFilter? Like road -> tube etc.

@@ -20,7 +20,8 @@ namespace BlockFilter
         Blue,
         Purple,
         Grayscale,
-        Brown
+        Brown,
+        ClearAll
     }
 
     public class PaintFilterManager
@@ -53,6 +54,7 @@ namespace BlockFilter
             filters.Add(PaintFilter.Transparent, new FilterObject("Transparent"));
             filters.Add(PaintFilter.Physics, new FilterObject("Physics"));
             filters.Add(PaintFilter.Reflective, new FilterObject("Reflective"));
+            filters.Add(PaintFilter.ClearAll, new FilterObject("Clear All"));
         }
 
         public void ClearAll()
@@ -124,6 +126,7 @@ namespace BlockFilter
             filters[PaintFilter.Transparent].Sprite = MaterialManager.AllMaterials[280].thumbnail;
             filters[PaintFilter.Physics].Sprite = MaterialManager.AllMaterials[90].thumbnail;
             filters[PaintFilter.Reflective].Sprite = MaterialManager.AllMaterials[83].thumbnail;
+            filters[PaintFilter.ClearAll].Sprite = Sprites.xSprite;
         }
 
         public void GenerateFilterButtons(LEV_Inspector instance, LEV_CustomButton buttonPrefab)
@@ -159,7 +162,11 @@ namespace BlockFilter
                 LEV_CustomButton button = copy.GetComponent<LEV_CustomButton>();
                 button.onClick.AddListener(() =>
                 {
-                    if(kvp.Key == PaintFilter.Physics || kvp.Key == PaintFilter.Transparent || kvp.Key == PaintFilter.Reflective)
+                    if(kvp.Key == PaintFilter.ClearAll)
+                    {
+                        ResetAllSelections(true);
+                    }
+                    else if(kvp.Key == PaintFilter.Physics || kvp.Key == PaintFilter.Transparent || kvp.Key == PaintFilter.Reflective)
                     {
                         switch(filters[kvp.Key].State)
                         {
