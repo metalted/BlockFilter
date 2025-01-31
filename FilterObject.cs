@@ -7,12 +7,19 @@ using UnityEngine;
 
 namespace BlockFilter
 {
+    public enum FilterState
+    {
+        Off,
+        Enabled,
+        Disabled
+    }
+
     public class FilterObject
     {
         public LEV_CustomButton Button;
         public Sprite Sprite;
         public string Name;
-        public bool State;
+        public FilterState State;
 
         public FilterObject(string name)
         {

@@ -19,7 +19,8 @@ namespace BlockFilter
         Green,
         Blue,
         Purple,
-        Grayscale
+        Grayscale,
+        Brown
     }
 
     public class PaintFilterManager
@@ -31,6 +32,7 @@ namespace BlockFilter
         private Vector2 AreaMax;
 
         private Dictionary<PaintFilter, FilterObject> filters;
+
         public PaintFilterManager(int columns, int rows, float padding, Vector2 areaMin, Vector2 areaMax)
         {
             Columns = columns;
@@ -46,6 +48,7 @@ namespace BlockFilter
             filters.Add(PaintFilter.Green, new FilterObject("Green"));
             filters.Add(PaintFilter.Blue, new FilterObject("Blue"));
             filters.Add(PaintFilter.Purple, new FilterObject("Purple"));
+            filters.Add(PaintFilter.Brown, new FilterObject("Brown"));
             filters.Add(PaintFilter.Grayscale, new FilterObject("Grayscale"));
             filters.Add(PaintFilter.Transparent, new FilterObject("Transparent"));
             filters.Add(PaintFilter.Physics, new FilterObject("Physics"));
@@ -56,7 +59,7 @@ namespace BlockFilter
         {
             foreach (KeyValuePair<PaintFilter, FilterObject> kvp in filters)
             {
-                kvp.Value.State = false;
+                kvp.Value.State = FilterState.Off;
 
                 if (kvp.Value.Button != null)
                 {
@@ -82,7 +85,7 @@ namespace BlockFilter
                     }
                 }
 
-                kvp.Value.State = false;
+                kvp.Value.State = FilterState.Off;
             }
         }
 
@@ -92,13 +95,17 @@ namespace BlockFilter
             {
                 if (kvp.Value.Button != null)
                 {
-                    if (kvp.Value.State)
+                    switch(kvp.Value.State)
                     {
-                        UIUtils.StandardRecolorEnabledButton(kvp.Value.Button);
-                    }
-                    else
-                    {
-                        UIUtils.StandardRecolorDisabledButton(kvp.Value.Button);
+                        case FilterState.Off:
+                            UIUtils.StandardRecolorOffButton(kvp.Value.Button);
+                            break;
+                        case FilterState.Enabled:
+                            UIUtils.StandardRecolorEnabledButton(kvp.Value.Button);
+                            break;
+                        case FilterState.Disabled:
+                            UIUtils.StandardRecolorDisabledButton(kvp.Value.Button);
+                            break;
                     }
                 }
             }
@@ -112,6 +119,7 @@ namespace BlockFilter
             filters[PaintFilter.Green].Sprite = MaterialManager.AllMaterials[297].thumbnail;
             filters[PaintFilter.Blue].Sprite = MaterialManager.AllMaterials[292].thumbnail;
             filters[PaintFilter.Purple].Sprite = MaterialManager.AllMaterials[304].thumbnail;
+            filters[PaintFilter.Brown].Sprite = MaterialManager.AllMaterials[44].thumbnail;
             filters[PaintFilter.Grayscale].Sprite = MaterialManager.AllMaterials[126].thumbnail;
             filters[PaintFilter.Transparent].Sprite = MaterialManager.AllMaterials[280].thumbnail;
             filters[PaintFilter.Physics].Sprite = MaterialManager.AllMaterials[90].thumbnail;
@@ -153,13 +161,33 @@ namespace BlockFilter
                 {
                     if(kvp.Key == PaintFilter.Physics || kvp.Key == PaintFilter.Transparent || kvp.Key == PaintFilter.Reflective)
                     {
-                        filters[kvp.Key].State = !filters[kvp.Key].State;
+                        switch(filters[kvp.Key].State)
+                        {
+                            case FilterState.Off:
+                                filters[kvp.Key].State = FilterState.Enabled;
+                                break;
+                            case FilterState.Enabled:
+                                filters[kvp.Key].State = FilterState.Disabled;
+                                break;
+                            case FilterState.Disabled:
+                                filters[kvp.Key].State = FilterState.Off;
+                                break;
+                        }
                     }
                     else
                     {
-                        bool currentState = filters[kvp.Key].State;
+                        FilterState currentState = filters[kvp.Key].State;
                         ResetAllSelections(false);
-                        filters[kvp.Key].State = !currentState;
+                        switch(currentState)
+                        {
+                            case FilterState.Off:
+                                filters[kvp.Key].State = FilterState.Enabled;
+                                break;
+                            case FilterState.Enabled:
+                                filters[kvp.Key].State = FilterState.Off;
+                                break;
+                        }
+                        
                     }
                     
                     instance.CreatePaintGUI();
@@ -212,18 +240,32 @@ namespace BlockFilter
             }
         }
 
-        public List<PaintFilter> GetCurrentActiveFilters()
+        public List<PaintFilter> GetCurrentEnabledFilters()
         {
             List<PaintFilter> applied = new List<PaintFilter>();
             foreach (KeyValuePair<PaintFilter, FilterObject> kvp in filters)
             {
-                if (kvp.Value.State)
+                if (kvp.Value.State == FilterState.Enabled)
                 {
                     applied.Add(kvp.Key);
                 }
             }
 
             return applied;
+        }
+
+        public List<PaintFilter> GetCurrentDisabledFilters()
+        {
+            List<PaintFilter> disabled = new List<PaintFilter>();
+            foreach (KeyValuePair<PaintFilter, FilterObject> kvp in filters)
+            {
+                if (kvp.Value.State == FilterState.Disabled)
+                {
+                    disabled.Add(kvp.Key);
+                }
+            }
+
+            return disabled;
         }
     }
 }

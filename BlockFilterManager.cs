@@ -46,7 +46,7 @@ namespace BlockFilter
         {
             foreach (KeyValuePair<BlockFilter, FilterObject> kvp in filters)
             {
-                kvp.Value.State = false;
+                kvp.Value.State = FilterState.Off;
 
                 if (kvp.Value.Button != null)
                 {
@@ -64,7 +64,7 @@ namespace BlockFilter
         {
             foreach (KeyValuePair<BlockFilter, FilterObject> kvp in filters)
             {
-                kvp.Value.State = false;
+                kvp.Value.State = FilterState.Off;
             }
         }
 
@@ -74,13 +74,17 @@ namespace BlockFilter
             {
                 if (kvp.Value.Button != null)
                 {
-                    if (kvp.Value.State)
+                    switch (kvp.Value.State)
                     {
-                        UIUtils.StandardRecolorEnabledButton(kvp.Value.Button);
-                    }
-                    else
-                    {
-                        UIUtils.StandardRecolorDisabledButton(kvp.Value.Button);
+                        case FilterState.Off:
+                            UIUtils.StandardRecolorOffButton(kvp.Value.Button);
+                            break;
+                        case FilterState.Enabled:
+                            UIUtils.StandardRecolorEnabledButton(kvp.Value.Button);
+                            break;
+                        case FilterState.Disabled:
+                            UIUtils.StandardRecolorDisabledButton(kvp.Value.Button);
+                            break;
                     }
                 }
             }
@@ -138,7 +142,19 @@ namespace BlockFilter
                 LEV_CustomButton button = copy.GetComponent<LEV_CustomButton>();
                 button.onClick.AddListener(() =>
                 {
-                    filters[kvp.Key].State = !filters[kvp.Key].State;
+                    switch (filters[kvp.Key].State)
+                    {
+                        case FilterState.Off:
+                            filters[kvp.Key].State = FilterState.Enabled;
+                            break;
+                        case FilterState.Enabled:
+                            filters[kvp.Key].State = FilterState.Disabled;
+                            break;
+                        case FilterState.Disabled:
+                            filters[kvp.Key].State = FilterState.Off;
+                            break;
+                    }
+
                     instance.CreateBlockGUI();
                 });
 
@@ -189,18 +205,32 @@ namespace BlockFilter
             }
         }
 
-        public List<BlockFilter> GetCurrentActiveFilters()
+        public List<BlockFilter> GetCurrentEnabledFilters()
         {
             List<BlockFilter> applied = new List<BlockFilter>();
             foreach (KeyValuePair<BlockFilter, FilterObject> kvp in filters)
             {
-                if (kvp.Value.State)
+                if (kvp.Value.State == FilterState.Enabled)
                 {
                     applied.Add(kvp.Key);
                 }
             }
 
             return applied;
+        }
+
+        public List<BlockFilter> GetCurrentDisabledFilters()
+        {
+            List<BlockFilter> disabled = new List<BlockFilter>();
+            foreach (KeyValuePair<BlockFilter, FilterObject> kvp in filters)
+            {
+                if (kvp.Value.State == FilterState.Disabled)
+                {
+                    disabled.Add(kvp.Key);
+                }
+            }
+
+            return disabled;
         }
     }
 

@@ -34,7 +34,7 @@ namespace BlockFilter
             PaintData.Initialize();
 
             blockFilter = new BlockFilterManager(6, 3, 0.01f, new Vector2(0.1f, 0.81f), new Vector2(0.9f, 0.94f));
-            paintFilter = new PaintFilterManager(5, 2, 0.01f, new Vector2(0.1f, 0.81f), new Vector2(0.9f, 0.94f));
+            paintFilter = new PaintFilterManager(6, 2, 0.01f, new Vector2(0.1f, 0.81f), new Vector2(0.9f, 0.94f));
         }
 
         public void OnLevelInspector(LEV_Inspector instance)
@@ -94,10 +94,11 @@ namespace BlockFilter
             paintFilter.SetButtonVisibility(false);
 
             //Get the currently applied filters.
-            List<BlockFilter> filters = blockFilter.GetCurrentActiveFilters();
+            List<BlockFilter> enabledFilters = blockFilter.GetCurrentEnabledFilters();
+            List<BlockFilter> disabledFilters = blockFilter.GetCurrentDisabledFilters();
 
             //If no filters are applied return true
-            if(filters.Count == 0)
+            if(enabledFilters.Count == 0 && disabledFilters.Count == 0)
             {
                 instance.DestroyBlockGUI();
                 instance.isPopulated = false;
@@ -106,7 +107,7 @@ namespace BlockFilter
             }
 
             //Get all block IDs that match the filter.
-            List<int> matches = BlockData.GetBlocksMatchingAllFilters(filters);
+            List<int> matches = BlockData.GetBlocksMatchingAllFilters(enabledFilters, disabledFilters);
 
             //Create the block gui and return false.
             GenerateBlockGUI(instance, matches);
@@ -119,9 +120,10 @@ namespace BlockFilter
             paintFilter.SetButtonVisibility(true);
             blockFilter.SetButtonVisibility(false);
 
-            List<PaintFilter> filters = paintFilter.GetCurrentActiveFilters();
+            List<PaintFilter> enabledFilters = paintFilter.GetCurrentEnabledFilters();
+            List<PaintFilter> disabledFilters = paintFilter.GetCurrentDisabledFilters();
 
-            if(filters.Count == 0)
+            if(enabledFilters.Count == 0 && disabledFilters.Count == 0)
             {
                 instance.DestroyBlockGUI();
                 instance.isPopulated = false;
@@ -129,7 +131,7 @@ namespace BlockFilter
                 return true;
             }
 
-            List<int> matches = PaintData.GetPaintsMatchingAllFilters(filters);
+            List<int> matches = PaintData.GetPaintsMatchingAllFilters(enabledFilters, disabledFilters);
 
             GeneratePaintGUI(instance, matches);
 
@@ -351,15 +353,6 @@ namespace BlockFilter
         public static void Postfix(LEV_Inspector __instance)
         {
             Plugin.Instance.OnLevelInspector(__instance);
-        }
-    }
-
-    [HarmonyPatch(typeof(LEV_Inspector), "PositionIndicator")]
-    public class TestTest
-    {
-        public static void Postfix(ref int i, ref bool activateIndocator, ref string nameText)
-        {
-            Debug.LogWarning(i + "," + activateIndocator + "," + nameText);
         }
     }
 }

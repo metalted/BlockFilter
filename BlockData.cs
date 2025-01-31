@@ -53,10 +53,13 @@ namespace BlockFilter
         }
 
         // Get all block IDs matching all the filters
-        public static List<int> GetBlocksMatchingAllFilters(List<BlockFilter> filters)
+        public static List<int> GetBlocksMatchingAllFilters(List<BlockFilter> enabledFilters, List<BlockFilter> disabledFilters)
         {
             return blockTags
-                .Where(kvp => filters.All(filter => kvp.Value.Contains(filter))) // Ensure all filters match
+                .Where(kvp =>
+                    enabledFilters.All(filter => kvp.Value.Contains(filter)) &&  // Match all enabled filters
+                    disabledFilters.All(filter => !kvp.Value.Contains(filter))   // Avoid any disabled filters
+                )
                 .Select(kvp => kvp.Key) // Select matching block IDs
                 .ToList();
         }
