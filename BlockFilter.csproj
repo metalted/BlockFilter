@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
-    <AssemblyName>BlockFilter</AssemblyName>
-    <Description>BlockFilter</Description>
+    <AssemblyName>QuickFilter</AssemblyName>
+    <Description>QuickFilter</Description>
     <Version>1.0</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
