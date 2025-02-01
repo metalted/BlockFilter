@@ -21,6 +21,10 @@ namespace BlockFilter
         Tilted,
         Irregular,
         Transition,
+        Interactive,
+        Building,
+        Shape,
+        Decoration,
         ClearAll
     }
 
@@ -146,11 +150,11 @@ namespace BlockFilter
             AddBlockTags(72, BlockFilter.Road, BlockFilter.Straight, BlockFilter.Field);
             AddBlockTags(73, BlockFilter.Road, BlockFilter.Straight, BlockFilter.Field);
             AddBlockTags(2280, BlockFilter.Road, BlockFilter.Straight, BlockFilter.Field);
-            AddBlockTags(131, BlockFilter.Road, BlockFilter.Straight, BlockFilter.Physics);
-            AddBlockTags(160, BlockFilter.Road, BlockFilter.Straight, BlockFilter.Physics);
-            AddBlockTags(1280, BlockFilter.Road, BlockFilter.Straight, BlockFilter.Physics);
-            AddBlockTags(1281, BlockFilter.Road, BlockFilter.Straight, BlockFilter.Physics);
-            AddBlockTags(1282, BlockFilter.Road, BlockFilter.Straight, BlockFilter.Physics);
+            AddBlockTags(131, BlockFilter.Road, BlockFilter.Straight, BlockFilter.Interactive);
+            AddBlockTags(160, BlockFilter.Road, BlockFilter.Straight, BlockFilter.Interactive);
+            AddBlockTags(1280, BlockFilter.Road, BlockFilter.Straight, BlockFilter.Interactive);
+            AddBlockTags(1281, BlockFilter.Road, BlockFilter.Straight, BlockFilter.Interactive);
+            AddBlockTags(1282, BlockFilter.Road, BlockFilter.Straight, BlockFilter.Interactive);
 
             //Folder 104-1
             AddBlockTags(86, BlockFilter.Road, BlockFilter.Curve, BlockFilter.Slope);
@@ -341,6 +345,58 @@ namespace BlockFilter
             AddBlockTags(298, BlockFilter.Road, BlockFilter.Curve, BlockFilter.Slope, BlockFilter.Irregular);
             AddBlockTags(299, BlockFilter.Road, BlockFilter.Curve, BlockFilter.Slope, BlockFilter.Irregular);
 
+            //Folder 102
+            AddBlockTags(75, BlockFilter.Irregular, BlockFilter.Straight, BlockFilter.Slope);
+            AddBlockTags(76, BlockFilter.Irregular, BlockFilter.Straight, BlockFilter.Slope);
+            AddBlockTags(77, BlockFilter.Irregular, BlockFilter.Straight, BlockFilter.Slope);
+            AddBlockTags(78, BlockFilter.Irregular, BlockFilter.Curve, BlockFilter.Slope);
+            AddBlockTags(79, BlockFilter.Irregular, BlockFilter.Sbend, BlockFilter.Slope);
+            AddBlockTags(80, BlockFilter.Irregular, BlockFilter.Curve, BlockFilter.Slope);
+            AddBlockTags(81, BlockFilter.Irregular, BlockFilter.Curve);
+            AddBlockTags(82, BlockFilter.Irregular, BlockFilter.Straight);
+            AddBlockTags(83, BlockFilter.Irregular, BlockFilter.Sbend, BlockFilter.Slope);
+            AddBlockTags(84, BlockFilter.Irregular, BlockFilter.Sbend, BlockFilter.Slope);
+            AddBlockTags(1556, BlockFilter.Building);
+
+            //Folder 106
+            AddBlockTags(167, BlockFilter.Road, BlockFilter.Irregular);
+            AddBlockTags(168, BlockFilter.Road, BlockFilter.Irregular);
+            AddBlockTags(168, BlockFilter.Curve, BlockFilter.Irregular);
+            AddBlockTags(168, BlockFilter.Curve, BlockFilter.Irregular);
+            AddBlockTags(168, BlockFilter.Curve, BlockFilter.Irregular);
+            AddBlockTags(144, BlockFilter.Shape);
+
+            //Folder 115
+            AddBlockTags(1622, BlockFilter.Road, BlockFilter.Sbend);
+            AddBlockTags(1623, BlockFilter.Road, BlockFilter.Sbend);
+            AddBlockTags(1624, BlockFilter.Road, BlockFilter.Sbend);
+            AddBlockTags(1628, BlockFilter.Road, BlockFilter.Sbend);
+            AddBlockTags(1629, BlockFilter.Road, BlockFilter.Sbend);
+            AddBlockTags(1630, BlockFilter.Road, BlockFilter.Sbend);
+            AddBlockTags(1631, BlockFilter.Road, BlockFilter.Sbend);
+            AddBlockTags(1632, BlockFilter.Road, BlockFilter.Sbend);
+            AddBlockTags(1633, BlockFilter.Road, BlockFilter.Sbend);
+            AddBlockTags(1634, BlockFilter.Road, BlockFilter.Sbend);
+            AddBlockTags(1635, BlockFilter.Road, BlockFilter.Sbend);
+            AddBlockTags(1636, BlockFilter.Road, BlockFilter.Sbend);
+
+            //Folder 116
+            AddBlockTags(1680, BlockFilter.Road, BlockFilter.Straight, BlockFilter.Irregular);
+            AddBlockTags(1682, BlockFilter.Road, BlockFilter.Straight, BlockFilter.Irregular);
+            AddBlockTags(1683, BlockFilter.Road, BlockFilter.Straight, BlockFilter.Irregular);
+            AddBlockTags(1684, BlockFilter.Road, BlockFilter.Straight, BlockFilter.Irregular);
+            AddBlockTags(1681, BlockFilter.Road, BlockFilter.Straight, BlockFilter.Irregular);
+            AddBlockTags(1685, BlockFilter.Road, BlockFilter.Straight, BlockFilter.Irregular);
+            AddBlockTags(1686, BlockFilter.Road, BlockFilter.Straight, BlockFilter.Irregular);
+            AddBlockTags(1687, BlockFilter.Road, BlockFilter.Straight, BlockFilter.Irregular);
+            AddBlockTags(1688, BlockFilter.Road, BlockFilter.Straight, BlockFilter.Irregular);
+            AddBlockTags(1689, BlockFilter.Road, BlockFilter.Straight, BlockFilter.Irregular);
+            AddBlockTags(2278, BlockFilter.Special);
+            AddBlockTags(1500, BlockFilter.Road, BlockFilter.Straight, BlockFilter.Irregular, BlockFilter.Special);
+            AddBlockTags(223, BlockFilter.Straight, BlockFilter.Irregular);
+            AddBlockTags(224, BlockFilter.Curve, BlockFilter.Irregular);
+            AddBlockTags(225, BlockFilter.Curve, BlockFilter.Irregular);
+
             //Toobs
             //Folder 200
             AddBlockTags(56, BlockFilter.Tube, BlockFilter.Straight);
@@ -368,8 +424,6 @@ namespace BlockFilter
             AddBlockTags(2347, BlockFilter.Tube, BlockFilter.Curve);
             AddBlockTags(2348, BlockFilter.Tube, BlockFilter.Curve);
 
-
-
             //Folder 201
             AddBlockTags(226, BlockFilter.Tube, BlockFilter.Irregular);
             AddBlockTags(248, BlockFilter.Tube, BlockFilter.Straight, BlockFilter.Irregular);
@@ -384,13 +438,19 @@ namespace BlockFilter
             AddBlockTags(348, BlockFilter.Tube, BlockFilter.Straight, BlockFilter.Transition, BlockFilter.Slope);
             AddBlockTags(1232, BlockFilter.Tube, BlockFilter.Irregular);
             AddBlockTags(1233, BlockFilter.Tube, BlockFilter.Irregular);
-            //... some shapes in here
+            AddBlockTags(124, BlockFilter.Shape);
             AddBlockTags(1461, BlockFilter.Tube, BlockFilter.Straight, BlockFilter.Slope, BlockFilter.Transition);
-            //... some shapes in here
+            AddBlockTags(1555, BlockFilter.Shape);
+            AddBlockTags(1618, BlockFilter.Shape);
+            AddBlockTags(1619, BlockFilter.Shape);
+            AddBlockTags(1620, BlockFilter.Shape);
             AddBlockTags(1621, BlockFilter.Tube, BlockFilter.Straight);
             AddBlockTags(2184, BlockFilter.Tube, BlockFilter.Curve);
             AddBlockTags(2185, BlockFilter.Tube, BlockFilter.Straight, BlockFilter.Transition);
-            //... some shapes in here
+            AddBlockTags(2186, BlockFilter.Shape);
+            AddBlockTags(2187, BlockFilter.Shape);
+            AddBlockTags(2311, BlockFilter.Shape);
+            AddBlockTags(2312, BlockFilter.Shape);
 
             //Folder 202
             AddBlockTags(1709, BlockFilter.Tube, BlockFilter.Straight, BlockFilter.Slope, BlockFilter.Transition);
@@ -526,8 +586,8 @@ namespace BlockFilter
             AddBlockTags(1552, BlockFilter.Tube, BlockFilter.Irregular);
             AddBlockTags(1553, BlockFilter.Tube, BlockFilter.Irregular);
             AddBlockTags(1554, BlockFilter.Tube, BlockFilter.Irregular);
-            AddBlockTags(2344, BlockFilter.Tube, BlockFilter.Irregular);
-            AddBlockTags(2342, BlockFilter.Tube, BlockFilter.Irregular);
+            AddBlockTags(2344, BlockFilter.Tube, BlockFilter.Irregular, BlockFilter.Sbend);
+            AddBlockTags(2342, BlockFilter.Tube, BlockFilter.Irregular, BlockFilter.Sbend);
 
             //Folder 300
             AddBlockTags(375, BlockFilter.HalfPipe, BlockFilter.Straight);
@@ -664,6 +724,672 @@ namespace BlockFilter
             AddBlockTags(2223, BlockFilter.HalfPipe, BlockFilter.Curve);
             AddBlockTags(2224, BlockFilter.HalfPipe, BlockFilter.Curve);
             AddBlockTags(2225, BlockFilter.HalfPipe, BlockFilter.Curve);
+
+            //Folder 401
+            AddBlockTags(212, BlockFilter.Physics);
+            AddBlockTags(209, BlockFilter.Physics);
+            AddBlockTags(210, BlockFilter.Physics);
+            AddBlockTags(211, BlockFilter.Physics);
+            AddBlockTags(213, BlockFilter.Physics);
+            AddBlockTags(214, BlockFilter.Physics);
+            AddBlockTags(215, BlockFilter.Physics);
+            AddBlockTags(216, BlockFilter.Physics);
+            AddBlockTags(217, BlockFilter.Physics);
+            AddBlockTags(218, BlockFilter.Physics);
+            AddBlockTags(219, BlockFilter.Physics);
+            AddBlockTags(220, BlockFilter.Physics);
+            AddBlockTags(221, BlockFilter.Physics);
+            AddBlockTags(222, BlockFilter.Physics);
+            AddBlockTags(2300, BlockFilter.Physics);
+            AddBlockTags(2301, BlockFilter.Physics);
+
+            //Folder 402
+            AddBlockTags(1452, BlockFilter.Physics);
+            AddBlockTags(1453, BlockFilter.Physics);
+            AddBlockTags(1454, BlockFilter.Physics);
+            AddBlockTags(1455, BlockFilter.Physics);
+            AddBlockTags(1456, BlockFilter.Physics);
+            AddBlockTags(1457, BlockFilter.Physics);
+            AddBlockTags(1458, BlockFilter.Physics);
+            AddBlockTags(1459, BlockFilter.Physics);
+            AddBlockTags(1460, BlockFilter.Physics);
+            AddBlockTags(1462, BlockFilter.Physics);
+
+            //Folder 403
+            AddBlockTags(1492, BlockFilter.Physics);
+            AddBlockTags(1493, BlockFilter.Physics);
+            AddBlockTags(1494, BlockFilter.Physics);
+            AddBlockTags(1495, BlockFilter.Physics);
+            AddBlockTags(1496, BlockFilter.Physics);
+            AddBlockTags(1497, BlockFilter.Physics);
+            AddBlockTags(1539, BlockFilter.Physics);
+            AddBlockTags(1499, BlockFilter.Physics);
+            AddBlockTags(1500, BlockFilter.Road, BlockFilter.Irregular);
+
+            //Folder 404
+            AddBlockTags(1727, BlockFilter.Field);
+            AddBlockTags(1728, BlockFilter.Field);
+            AddBlockTags(1729, BlockFilter.Field);
+            AddBlockTags(1730, BlockFilter.Field);
+            AddBlockTags(2285, BlockFilter.Field);
+            AddBlockTags(2286, BlockFilter.Field);
+            AddBlockTags(1744, BlockFilter.Field);
+            AddBlockTags(2291, BlockFilter.Field);
+            AddBlockTags(2284, BlockFilter.Field);
+            AddBlockTags(1745, BlockFilter.Road, BlockFilter.Irregular);
+            AddBlockTags(1731, BlockFilter.Physics);
+            AddBlockTags(1732, BlockFilter.Physics);
+            AddBlockTags(1733, BlockFilter.Physics);
+            AddBlockTags(1734, BlockFilter.Physics);
+            AddBlockTags(1735, BlockFilter.Physics);
+            AddBlockTags(1736, BlockFilter.Physics);
+            AddBlockTags(1738, BlockFilter.Physics);
+
+            //Folder 405
+            AddBlockTags(1617, BlockFilter.Interactive);
+            AddBlockTags(2032, BlockFilter.Interactive);
+            AddBlockTags(2033, BlockFilter.Interactive);
+            AddBlockTags(2034, BlockFilter.Interactive);
+            AddBlockTags(2035, BlockFilter.Interactive);
+            AddBlockTags(2036, BlockFilter.Interactive);
+            AddBlockTags(2037, BlockFilter.Interactive);
+            AddBlockTags(2039, BlockFilter.Interactive);
+            AddBlockTags(2040, BlockFilter.Interactive);
+            AddBlockTags(2041, BlockFilter.Interactive);
+
+            //Folder 406
+            AddBlockTags(2292, BlockFilter.Physics);
+            AddBlockTags(2293, BlockFilter.Physics);
+            AddBlockTags(2294, BlockFilter.Physics);
+            AddBlockTags(2295, BlockFilter.Physics);
+            AddBlockTags(2296, BlockFilter.Physics);
+            AddBlockTags(2297, BlockFilter.Physics);
+            AddBlockTags(2298, BlockFilter.Physics);
+            AddBlockTags(2299, BlockFilter.Physics);
+
+            //Folder 407
+            AddBlockTags(2331, BlockFilter.Physics);
+            AddBlockTags(2332, BlockFilter.Physics);
+            AddBlockTags(2333, BlockFilter.Physics);
+            AddBlockTags(2334, BlockFilter.Physics);
+            AddBlockTags(2335, BlockFilter.Physics);
+            AddBlockTags(2336, BlockFilter.Physics);
+            AddBlockTags(2337, BlockFilter.Physics);
+            AddBlockTags(2338, BlockFilter.Physics);
+
+            //Folder 400
+            AddBlockTags(42, BlockFilter.Interactive);
+            AddBlockTags(52, BlockFilter.Physics);
+            AddBlockTags(43, BlockFilter.Interactive);
+            AddBlockTags(51, BlockFilter.Interactive);
+            AddBlockTags(53, BlockFilter.Interactive);
+            AddBlockTags(54, BlockFilter.Interactive);
+            AddBlockTags(74, BlockFilter.Physics);
+            AddBlockTags(281, BlockFilter.Interactive);
+            AddBlockTags(1158, BlockFilter.Interactive);
+            AddBlockTags(1265, BlockFilter.Interactive);
+            AddBlockTags(1283, BlockFilter.Physics);
+            AddBlockTags(1498, BlockFilter.Physics);
+            AddBlockTags(1546, BlockFilter.Field);
+
+            //Folder 500
+            AddBlockTags(1324, BlockFilter.Building);
+            AddBlockTags(1320, BlockFilter.Building);
+            AddBlockTags(1321, BlockFilter.Building);
+            AddBlockTags(1322, BlockFilter.Building);
+            AddBlockTags(1323, BlockFilter.Building);
+
+            //Folder 501
+            AddBlockTags(145, BlockFilter.Building);
+            AddBlockTags(146, BlockFilter.Building);
+            AddBlockTags(147, BlockFilter.Building);
+            AddBlockTags(148, BlockFilter.Building);
+            AddBlockTags(149, BlockFilter.Building);
+            AddBlockTags(150, BlockFilter.Building);
+            AddBlockTags(151, BlockFilter.Building);
+            AddBlockTags(152, BlockFilter.Building);
+            AddBlockTags(153, BlockFilter.Building);
+            AddBlockTags(154, BlockFilter.Building);
+            AddBlockTags(155, BlockFilter.Building);
+            AddBlockTags(156, BlockFilter.Building);
+            AddBlockTags(368, BlockFilter.Building);
+            AddBlockTags(371, BlockFilter.Building);
+
+            //Folder 502
+            AddBlockTags(157, BlockFilter.Building);
+            AddBlockTags(158, BlockFilter.Building);
+            AddBlockTags(159, BlockFilter.Building);
+            AddBlockTags(184, BlockFilter.Building);
+            AddBlockTags(369, BlockFilter.Building);
+            AddBlockTags(370, BlockFilter.Building);
+
+            //Folder 503
+            AddBlockTags(132, BlockFilter.Building);
+            AddBlockTags(133, BlockFilter.Building);
+            AddBlockTags(134, BlockFilter.Building);
+            AddBlockTags(135, BlockFilter.Building);
+            AddBlockTags(136, BlockFilter.Building);
+            AddBlockTags(137, BlockFilter.Building);
+            AddBlockTags(138, BlockFilter.Building);
+            AddBlockTags(166, BlockFilter.Building);
+            AddBlockTags(139, BlockFilter.Building);
+            AddBlockTags(140, BlockFilter.Building);
+            AddBlockTags(141, BlockFilter.Building);
+            AddBlockTags(142, BlockFilter.Building);
+            AddBlockTags(143, BlockFilter.Building);
+            AddBlockTags(200, BlockFilter.Building);
+
+            //Folder 504
+            AddBlockTags(172, BlockFilter.Building);
+            AddBlockTags(173, BlockFilter.Building);
+            AddBlockTags(174, BlockFilter.Building);
+            AddBlockTags(175, BlockFilter.Building);
+            AddBlockTags(176, BlockFilter.Building);
+            AddBlockTags(177, BlockFilter.Building);
+            AddBlockTags(178, BlockFilter.Building);
+            AddBlockTags(179, BlockFilter.Building);
+            AddBlockTags(180, BlockFilter.Building);
+            AddBlockTags(181, BlockFilter.Building);
+            AddBlockTags(183, BlockFilter.Building);
+            AddBlockTags(182, BlockFilter.Building);
+            AddBlockTags(1419, BlockFilter.Building);
+            AddBlockTags(2244, BlockFilter.Building);
+            AddBlockTags(2245, BlockFilter.Building);
+            AddBlockTags(2246, BlockFilter.Building);
+            AddBlockTags(2247, BlockFilter.Building);
+            AddBlockTags(2248, BlockFilter.Building);
+            AddBlockTags(2249, BlockFilter.Building);
+            AddBlockTags(2250, BlockFilter.Building);
+
+            //Folder 505
+            AddBlockTags(1388, BlockFilter.Building);
+            AddBlockTags(1465, BlockFilter.Building);
+            AddBlockTags(1480, BlockFilter.Building);
+            AddBlockTags(1467, BlockFilter.Building);
+            AddBlockTags(1485, BlockFilter.Building);
+            AddBlockTags(1477, BlockFilter.Building);
+            AddBlockTags(1486, BlockFilter.Building);
+            AddBlockTags(1487, BlockFilter.Building);
+            AddBlockTags(1478, BlockFilter.Building);
+            AddBlockTags(1479, BlockFilter.Building);
+            AddBlockTags(1476, BlockFilter.Building);
+            AddBlockTags(1466, BlockFilter.Building);
+            AddBlockTags(1488, BlockFilter.Building);
+            AddBlockTags(1489, BlockFilter.Building);
+            AddBlockTags(1491, BlockFilter.Building);
+
+            //Folder 506
+            AddBlockTags(1472, BlockFilter.Building);
+            AddBlockTags(1484, BlockFilter.Building);
+            AddBlockTags(1474, BlockFilter.Building);
+            AddBlockTags(1475, BlockFilter.Building);
+            AddBlockTags(1473, BlockFilter.Building);
+            AddBlockTags(1481, BlockFilter.Building);
+            AddBlockTags(1468, BlockFilter.Building);
+            AddBlockTags(1469, BlockFilter.Building);
+            AddBlockTags(1470, BlockFilter.Building);
+            AddBlockTags(1471, BlockFilter.Building);
+            AddBlockTags(1482, BlockFilter.Building);
+            AddBlockTags(1483, BlockFilter.Building);
+
+            //Folder 507-1
+            AddBlockTags(1935, BlockFilter.Building);
+            AddBlockTags(1936, BlockFilter.Building);
+            AddBlockTags(1971, BlockFilter.Building);
+            AddBlockTags(1972, BlockFilter.Building);
+            AddBlockTags(1973, BlockFilter.Building);
+            AddBlockTags(1974, BlockFilter.Building);
+            AddBlockTags(1975, BlockFilter.Building);
+            AddBlockTags(1976, BlockFilter.Building);
+            AddBlockTags(1977, BlockFilter.Building);
+            AddBlockTags(2277, BlockFilter.Building);
+
+            //Folder 507-2
+            AddBlockTags(1933, BlockFilter.Building);
+            AddBlockTags(1934, BlockFilter.Building);
+            AddBlockTags(1937, BlockFilter.Building);
+            AddBlockTags(1938, BlockFilter.Building);
+            AddBlockTags(1939, BlockFilter.Building);
+            AddBlockTags(1940, BlockFilter.Building);
+            AddBlockTags(1941, BlockFilter.Building);
+            AddBlockTags(1942, BlockFilter.Building);
+            AddBlockTags(1943, BlockFilter.Building);
+            AddBlockTags(1944, BlockFilter.Building);
+            AddBlockTags(1947, BlockFilter.Building);
+            AddBlockTags(1948, BlockFilter.Building);
+            AddBlockTags(1949, BlockFilter.Building);
+            AddBlockTags(1950, BlockFilter.Building);
+            AddBlockTags(1951, BlockFilter.Building);
+            AddBlockTags(1952, BlockFilter.Building);
+            AddBlockTags(1959, BlockFilter.Building);
+
+            //Folder 507-3
+            AddBlockTags(1960, BlockFilter.Building);
+            AddBlockTags(1962, BlockFilter.Building);
+            AddBlockTags(1963, BlockFilter.Building);
+            AddBlockTags(1961, BlockFilter.Building);
+            AddBlockTags(1969, BlockFilter.Building);
+            AddBlockTags(1970, BlockFilter.Building);
+            AddBlockTags(1964, BlockFilter.Building);
+            AddBlockTags(1965, BlockFilter.Building);
+            AddBlockTags(1966, BlockFilter.Building);
+            AddBlockTags(1967, BlockFilter.Building);
+            AddBlockTags(1968, BlockFilter.Building);
+
+            //Folder 507-4
+            AddBlockTags(1931, BlockFilter.Building);
+            AddBlockTags(1932, BlockFilter.Building);
+            AddBlockTags(1945, BlockFilter.Building);
+            AddBlockTags(1946, BlockFilter.Building);
+            AddBlockTags(1953, BlockFilter.Building);
+            AddBlockTags(1954, BlockFilter.Building);
+            AddBlockTags(1956, BlockFilter.Building);
+            AddBlockTags(1955, BlockFilter.Building);
+            AddBlockTags(1957, BlockFilter.Building);
+            AddBlockTags(1958, BlockFilter.Building);
+
+            //Folder 507-5
+            AddBlockTags(1894, BlockFilter.Building);
+            AddBlockTags(1895, BlockFilter.Building);
+            AddBlockTags(1896, BlockFilter.Building);
+            AddBlockTags(1897, BlockFilter.Building);
+            AddBlockTags(1898, BlockFilter.Building);
+            AddBlockTags(1899, BlockFilter.Building);
+            AddBlockTags(1900, BlockFilter.Building);
+            AddBlockTags(1901, BlockFilter.Building);
+            AddBlockTags(1902, BlockFilter.Building);
+
+            //Folder 507-6
+            AddBlockTags(1884, BlockFilter.Building);
+            AddBlockTags(1885, BlockFilter.Building);
+            AddBlockTags(1886, BlockFilter.Building);
+            AddBlockTags(1887, BlockFilter.Building);
+            AddBlockTags(1888, BlockFilter.Building);
+            AddBlockTags(1889, BlockFilter.Building);
+            AddBlockTags(1890, BlockFilter.Building);
+            AddBlockTags(1891, BlockFilter.Building);
+            AddBlockTags(1892, BlockFilter.Building);
+            AddBlockTags(1893, BlockFilter.Building);
+
+            //Folder 507-7
+            AddBlockTags(1903, BlockFilter.Building);
+            AddBlockTags(1904, BlockFilter.Building);
+            AddBlockTags(1905, BlockFilter.Building);
+            AddBlockTags(1906, BlockFilter.Building);
+            AddBlockTags(1907, BlockFilter.Building);
+            AddBlockTags(1908, BlockFilter.Building);
+            AddBlockTags(1909, BlockFilter.Building);
+            AddBlockTags(1910, BlockFilter.Building);
+            AddBlockTags(1911, BlockFilter.Building);
+            AddBlockTags(1912, BlockFilter.Building);
+            AddBlockTags(1913, BlockFilter.Building);
+            AddBlockTags(1914, BlockFilter.Building);
+
+            //Folder 507-8
+            AddBlockTags(1915, BlockFilter.Building);
+            AddBlockTags(1916, BlockFilter.Building);
+            AddBlockTags(1917, BlockFilter.Building);
+            AddBlockTags(1918, BlockFilter.Building);
+            AddBlockTags(1919, BlockFilter.Building);
+            AddBlockTags(1920, BlockFilter.Building);
+            AddBlockTags(1921, BlockFilter.Building);
+            AddBlockTags(1922, BlockFilter.Building);
+            AddBlockTags(1923, BlockFilter.Building);
+            AddBlockTags(1924, BlockFilter.Building);
+            AddBlockTags(1925, BlockFilter.Building);
+            AddBlockTags(1926, BlockFilter.Building);
+            AddBlockTags(1927, BlockFilter.Building);
+            AddBlockTags(1928, BlockFilter.Building);
+            AddBlockTags(1929, BlockFilter.Building);
+            AddBlockTags(1930, BlockFilter.Building);
+
+            //Folder 600
+            AddBlockTags(201, BlockFilter.Decoration);
+            AddBlockTags(202, BlockFilter.Decoration);
+            AddBlockTags(203, BlockFilter.Decoration);
+            AddBlockTags(204, BlockFilter.Decoration);
+            AddBlockTags(205, BlockFilter.Decoration);
+            AddBlockTags(130, BlockFilter.Decoration);
+            AddBlockTags(206, BlockFilter.Decoration);
+            AddBlockTags(207, BlockFilter.Decoration);
+            AddBlockTags(208, BlockFilter.Decoration);
+            AddBlockTags(1364, BlockFilter.Decoration);
+            AddBlockTags(1365, BlockFilter.Decoration);
+            AddBlockTags(1366, BlockFilter.Decoration);
+            AddBlockTags(1367, BlockFilter.Decoration);
+            AddBlockTags(1368, BlockFilter.Decoration);
+            AddBlockTags(1369, BlockFilter.Decoration);
+            AddBlockTags(2283, BlockFilter.Decoration);
+            AddBlockTags(2183, BlockFilter.Decoration);
+            AddBlockTags(2258, BlockFilter.Decoration);
+            AddBlockTags(2319, BlockFilter.Decoration);
+
+            //Folder 700
+            AddBlockTags(128, BlockFilter.Building, BlockFilter.Interactive, BlockFilter.Decoration);
+            AddBlockTags(356, BlockFilter.Decoration);
+            AddBlockTags(393, BlockFilter.Interactive, BlockFilter.Decoration);
+            AddBlockTags(1159, BlockFilter.Decoration);
+            AddBlockTags(1358, BlockFilter.Decoration);
+            AddBlockTags(1362, BlockFilter.Tube, BlockFilter.Straight, BlockFilter.Irregular);
+            AddBlockTags(1543, BlockFilter.Decoration);
+            AddBlockTags(2339, BlockFilter.Decoration);
+            AddBlockTags(355, BlockFilter.Special);
+
+            //Folder 701
+            AddBlockTags(1268, BlockFilter.Decoration);
+            AddBlockTags(1272, BlockFilter.Decoration);
+            AddBlockTags(1269, BlockFilter.Interactive, BlockFilter.Decoration);
+            AddBlockTags(1270, BlockFilter.Interactive, BlockFilter.Decoration);
+            AddBlockTags(1271, BlockFilter.Interactive, BlockFilter.Decoration);
+            AddBlockTags(1267, BlockFilter.Decoration);
+
+            //Folder 702
+            AddBlockTags(1338, BlockFilter.Decoration);
+            AddBlockTags(1339, BlockFilter.Decoration);
+            AddBlockTags(1340, BlockFilter.Decoration);
+            AddBlockTags(1341, BlockFilter.Decoration);
+            AddBlockTags(1342, BlockFilter.Decoration);
+            AddBlockTags(1343, BlockFilter.Decoration);
+            AddBlockTags(1344, BlockFilter.Decoration);
+            AddBlockTags(1345, BlockFilter.Decoration);
+            AddBlockTags(1370, BlockFilter.Decoration);
+            AddBlockTags(1371, BlockFilter.Decoration);
+
+            //Folder 703
+            AddBlockTags(1359, BlockFilter.Special, BlockFilter.Decoration, BlockFilter.Interactive);
+            AddBlockTags(1360, BlockFilter.Special, BlockFilter.Decoration, BlockFilter.Interactive);
+            AddBlockTags(1361, BlockFilter.Decoration);
+
+            //Folder 704
+            AddBlockTags(1446, BlockFilter.Shape);
+            AddBlockTags(1447, BlockFilter.Shape);
+            AddBlockTags(1448, BlockFilter.Shape);
+            AddBlockTags(1449, BlockFilter.Shape);
+            AddBlockTags(1450, BlockFilter.Shape);
+            AddBlockTags(1451, BlockFilter.Shape);
+
+            //Folder 705
+            AddBlockTags(85, BlockFilter.Decoration);
+            AddBlockTags(282, BlockFilter.Decoration);
+            AddBlockTags(287, BlockFilter.Decoration);
+            AddBlockTags(288, BlockFilter.Decoration);
+            AddBlockTags(289, BlockFilter.Decoration);
+            AddBlockTags(283, BlockFilter.Decoration);
+            AddBlockTags(284, BlockFilter.Decoration);
+            AddBlockTags(285, BlockFilter.Decoration);
+            AddBlockTags(286, BlockFilter.Decoration);
+            AddBlockTags(353, BlockFilter.Decoration);
+            AddBlockTags(354, BlockFilter.Decoration);
+            AddBlockTags(374, BlockFilter.Decoration);
+            AddBlockTags(1266, BlockFilter.Decoration);
+            AddBlockTags(1325, BlockFilter.Decoration);
+
+            //Folder 706
+            AddBlockTags(1590, BlockFilter.Shape, BlockFilter.Decoration);
+            AddBlockTags(1591, BlockFilter.Decoration);
+            AddBlockTags(1592, BlockFilter.Decoration);
+            AddBlockTags(1593, BlockFilter.Decoration);
+            AddBlockTags(1594, BlockFilter.Decoration);
+            AddBlockTags(1595, BlockFilter.Decoration);
+            AddBlockTags(1596, BlockFilter.Decoration);
+            AddBlockTags(1598, BlockFilter.Shape, BlockFilter.Decoration);
+            AddBlockTags(1597, BlockFilter.Decoration);
+
+            //Folder 707
+            AddBlockTags(2322, BlockFilter.Decoration);
+            AddBlockTags(2323, BlockFilter.Decoration);
+            AddBlockTags(2324, BlockFilter.Decoration);
+            AddBlockTags(2325, BlockFilter.Decoration);
+            AddBlockTags(2326, BlockFilter.Decoration);
+            AddBlockTags(2327, BlockFilter.Decoration);
+            AddBlockTags(2328, BlockFilter.Decoration);
+            AddBlockTags(2329, BlockFilter.Decoration);
+            AddBlockTags(2330, BlockFilter.Decoration);
+
+            //Folder 1201
+            AddBlockTags(1413, BlockFilter.Decoration);
+            AddBlockTags(1414, BlockFilter.Decoration, BlockFilter.Shape);
+            AddBlockTags(1415, BlockFilter.Decoration, BlockFilter.Shape);
+            AddBlockTags(1416, BlockFilter.Decoration);
+            AddBlockTags(1417, BlockFilter.Decoration);
+            AddBlockTags(1418, BlockFilter.Decoration);
+            AddBlockTags(1428, BlockFilter.Decoration, BlockFilter.Interactive);
+            AddBlockTags(1429, BlockFilter.Decoration, BlockFilter.Interactive);
+            AddBlockTags(1430, BlockFilter.Decoration, BlockFilter.Interactive);
+            AddBlockTags(1431, BlockFilter.Decoration, BlockFilter.Interactive);
+
+            //Folder 1202
+            AddBlockTags(1375, BlockFilter.Decoration);
+            AddBlockTags(1376, BlockFilter.Decoration);
+            AddBlockTags(1377, BlockFilter.Decoration);
+            AddBlockTags(1378, BlockFilter.Decoration);
+            AddBlockTags(1379, BlockFilter.Decoration);
+            AddBlockTags(1380, BlockFilter.Decoration);
+            AddBlockTags(1381, BlockFilter.Decoration);
+            AddBlockTags(1382, BlockFilter.Decoration);
+            AddBlockTags(1383, BlockFilter.Decoration);
+            AddBlockTags(1384, BlockFilter.Decoration);
+            AddBlockTags(1385, BlockFilter.Decoration);
+            AddBlockTags(1386, BlockFilter.Decoration);
+            AddBlockTags(1387, BlockFilter.Decoration);
+            AddBlockTags(1490, BlockFilter.Decoration);
+
+            //Folder 1203
+            AddBlockTags(1389, BlockFilter.Decoration);
+            AddBlockTags(1390, BlockFilter.Decoration);
+            AddBlockTags(1391, BlockFilter.Decoration, BlockFilter.Shape);
+            AddBlockTags(1392, BlockFilter.Decoration, BlockFilter.Interactive);
+
+            //Folder 1204
+            AddBlockTags(1437, BlockFilter.Decoration, BlockFilter.Interactive);
+            AddBlockTags(1438, BlockFilter.Decoration, BlockFilter.Interactive);
+            AddBlockTags(1439, BlockFilter.Decoration, BlockFilter.Interactive);
+            AddBlockTags(1440, BlockFilter.Decoration, BlockFilter.Interactive);
+            AddBlockTags(1441, BlockFilter.Decoration, BlockFilter.Interactive);
+            AddBlockTags(1442, BlockFilter.Decoration, BlockFilter.Interactive);
+            AddBlockTags(1443, BlockFilter.Decoration, BlockFilter.Interactive);
+            AddBlockTags(1444, BlockFilter.Decoration, BlockFilter.Interactive);
+
+            //Folder 1200
+            AddBlockTags(1410, BlockFilter.Decoration);
+            AddBlockTags(1411, BlockFilter.Decoration);
+            AddBlockTags(1412, BlockFilter.Special);
+            AddBlockTags(1432, BlockFilter.Decoration);
+            AddBlockTags(1433, BlockFilter.Decoration);
+            AddBlockTags(1434, BlockFilter.Decoration);
+            AddBlockTags(1435, BlockFilter.Decoration, BlockFilter.Interactive);
+            AddBlockTags(1436, BlockFilter.Decoration, BlockFilter.Interactive);
+            AddBlockTags(1445, BlockFilter.Decoration, BlockFilter.Interactive);
+            AddBlockTags(1463, BlockFilter.Decoration);
+
+            //Folder 1100
+            AddBlockTags(1329, BlockFilter.Shape);
+            AddBlockTags(1326, BlockFilter.Shape);
+            AddBlockTags(1327, BlockFilter.Shape);
+            AddBlockTags(1328, BlockFilter.Shape);
+            AddBlockTags(1531, BlockFilter.Shape);
+            AddBlockTags(2176, BlockFilter.Shape);
+            AddBlockTags(2177, BlockFilter.Shape);
+
+            //Folder 1101
+            AddBlockTags(1291, BlockFilter.Shape);
+            AddBlockTags(1292, BlockFilter.Shape);
+            AddBlockTags(1293, BlockFilter.Shape);
+            AddBlockTags(1294, BlockFilter.Shape);
+            AddBlockTags(1295, BlockFilter.Shape);
+            AddBlockTags(1296, BlockFilter.Shape);
+            AddBlockTags(1297, BlockFilter.Shape);
+            AddBlockTags(1298, BlockFilter.Shape);
+            AddBlockTags(1299, BlockFilter.Shape);
+            AddBlockTags(1300, BlockFilter.Shape);
+            AddBlockTags(1301, BlockFilter.Shape);
+            AddBlockTags(1302, BlockFilter.Shape);
+            AddBlockTags(1571, BlockFilter.Shape);
+            AddBlockTags(2178, BlockFilter.Shape);
+            AddBlockTags(2179, BlockFilter.Shape);
+            AddBlockTags(2180, BlockFilter.Shape);
+            AddBlockTags(2181, BlockFilter.Shape);
+
+            //Folder 1102
+            AddBlockTags(1316, BlockFilter.Shape);
+            AddBlockTags(1317, BlockFilter.Shape);
+            AddBlockTags(1318, BlockFilter.Shape);
+            AddBlockTags(1572, BlockFilter.Shape);
+            AddBlockTags(1573, BlockFilter.Shape);
+            AddBlockTags(1574, BlockFilter.Shape);
+            AddBlockTags(1575, BlockFilter.Shape);
+            AddBlockTags(1584, BlockFilter.Shape);
+            AddBlockTags(1585, BlockFilter.Shape);
+            AddBlockTags(1586, BlockFilter.Shape);
+            AddBlockTags(1587, BlockFilter.Shape);
+            AddBlockTags(1588, BlockFilter.Shape);
+            AddBlockTags(1589, BlockFilter.Shape);
+
+            //Folder 1103
+            AddBlockTags(1303, BlockFilter.Shape);
+            AddBlockTags(1304, BlockFilter.Shape);
+            AddBlockTags(1305, BlockFilter.Shape);
+            AddBlockTags(1306, BlockFilter.Shape);
+            AddBlockTags(1576, BlockFilter.Shape);
+            AddBlockTags(1577, BlockFilter.Shape);
+            AddBlockTags(1578, BlockFilter.Shape);
+            AddBlockTags(1579, BlockFilter.Shape);
+            AddBlockTags(1580, BlockFilter.Shape);
+            AddBlockTags(1581, BlockFilter.Shape);
+            AddBlockTags(1582, BlockFilter.Shape);
+            AddBlockTags(1583, BlockFilter.Shape);
+            AddBlockTags(2188, BlockFilter.Shape);
+            AddBlockTags(2189, BlockFilter.Shape);
+            AddBlockTags(2356, BlockFilter.Shape);
+
+            //Folder 1104
+            AddBlockTags(1307, BlockFilter.Shape);
+            AddBlockTags(1311, BlockFilter.Decoration);
+            AddBlockTags(1312, BlockFilter.Decoration);
+            AddBlockTags(1313, BlockFilter.Decoration);
+            AddBlockTags(1314, BlockFilter.Decoration);
+            AddBlockTags(1315, BlockFilter.Shape);
+            AddBlockTags(1372, BlockFilter.Shape);
+            AddBlockTags(1606, BlockFilter.Shape);
+            AddBlockTags(1667, BlockFilter.Shape);
+            AddBlockTags(1737, BlockFilter.Shape);
+            AddBlockTags(2005, BlockFilter.Decoration);
+            AddBlockTags(2011, BlockFilter.Decoration);
+            AddBlockTags(2012, BlockFilter.Decoration, BlockFilter.Shape);
+            AddBlockTags(2020, BlockFilter.Decoration, BlockFilter.Shape);
+            AddBlockTags(2038, BlockFilter.Decoration);
+            AddBlockTags(2043, BlockFilter.Decoration);
+            AddBlockTags(2190, BlockFilter.Shape);
+            AddBlockTags(2275, BlockFilter.Decoration);
+
+            //Folder 1105
+            AddBlockTags(1308, BlockFilter.Shape);
+            AddBlockTags(1309, BlockFilter.Shape);
+            AddBlockTags(1310, BlockFilter.Shape);
+            AddBlockTags(2014, BlockFilter.Decoration);
+            AddBlockTags(2015, BlockFilter.Decoration);
+            AddBlockTags(1514, BlockFilter.Decoration);
+            AddBlockTags(1515, BlockFilter.Decoration);
+            AddBlockTags(1541, BlockFilter.Decoration);
+            AddBlockTags(2253, BlockFilter.Decoration);
+
+            //Folder 1106
+            AddBlockTags(1198, BlockFilter.Decoration);
+            AddBlockTags(2004, BlockFilter.Decoration);
+            AddBlockTags(1319, BlockFilter.Decoration);
+            AddBlockTags(2003, BlockFilter.Decoration);
+            AddBlockTags(2002, BlockFilter.Decoration);
+            AddBlockTags(1999, BlockFilter.Decoration);
+            AddBlockTags(2000, BlockFilter.Decoration);
+            AddBlockTags(2001, BlockFilter.Decoration);
+            AddBlockTags(1996, BlockFilter.Decoration, BlockFilter.Shape);
+            AddBlockTags(1997, BlockFilter.Decoration);
+            AddBlockTags(2009, BlockFilter.Decoration, BlockFilter.Shape);
+            AddBlockTags(1994, BlockFilter.Decoration);
+            AddBlockTags(1995, BlockFilter.Decoration);
+            AddBlockTags(2021, BlockFilter.Decoration);
+            AddBlockTags(2182, BlockFilter.Decoration);
+            AddBlockTags(2276, BlockFilter.Decoration);
+
+            //Folder 1107
+            AddBlockTags(2006, BlockFilter.Decoration);
+            AddBlockTags(2007, BlockFilter.Decoration);
+            AddBlockTags(2008, BlockFilter.Decoration);
+            AddBlockTags(2016, BlockFilter.Decoration);
+            AddBlockTags(2017, BlockFilter.Decoration);
+            AddBlockTags(2018, BlockFilter.Decoration);
+            AddBlockTags(2019, BlockFilter.Decoration);
+            AddBlockTags(2042, BlockFilter.Decoration, BlockFilter.Shape);
+            AddBlockTags(2044, BlockFilter.Decoration, BlockFilter.Shape);
+            AddBlockTags(2290, BlockFilter.Decoration);
+
+            //Folder 1108
+            AddBlockTags(2304, BlockFilter.Decoration, BlockFilter.Shape);
+            AddBlockTags(2305, BlockFilter.Decoration);
+            AddBlockTags(2306, BlockFilter.Decoration);
+            AddBlockTags(2307, BlockFilter.Decoration);
+            AddBlockTags(2308, BlockFilter.Decoration);
+            AddBlockTags(2309, BlockFilter.Decoration);
+            AddBlockTags(2310, BlockFilter.Decoration);
+
+            //Folder 1109
+            AddBlockTags(2010, BlockFilter.Decoration);
+            AddBlockTags(2013, BlockFilter.Decoration);
+            AddBlockTags(2257, BlockFilter.Decoration);
+            AddBlockTags(2274, BlockFilter.Decoration);
+            AddBlockTags(2313, BlockFilter.Decoration);
+            AddBlockTags(2314, BlockFilter.Decoration);
+            AddBlockTags(2315, BlockFilter.Decoration);
+            AddBlockTags(2316, BlockFilter.Decoration, BlockFilter.Shape);
+            AddBlockTags(2317, BlockFilter.Decoration, BlockFilter.Shape);
+            AddBlockTags(2318, BlockFilter.Decoration);
+            AddBlockTags(2320, BlockFilter.Decoration);
+            AddBlockTags(2321, BlockFilter.Decoration);
+            AddBlockTags(2302, BlockFilter.Decoration);
+            AddBlockTags(2303, BlockFilter.Decoration);
+
+            //Folder 1110
+            AddBlockTags(2357, BlockFilter.Shape);
+            AddBlockTags(2358, BlockFilter.Shape);
+            AddBlockTags(2359, BlockFilter.Shape);
+            AddBlockTags(2360, BlockFilter.Shape);
+            AddBlockTags(2361, BlockFilter.Shape);
+            AddBlockTags(2362, BlockFilter.Shape);
+            AddBlockTags(2363, BlockFilter.Shape);
+            AddBlockTags(2364, BlockFilter.Shape);
+            AddBlockTags(2365, BlockFilter.Shape);
+            AddBlockTags(2366, BlockFilter.Shape);
+            AddBlockTags(2367, BlockFilter.Shape);
+            AddBlockTags(2368, BlockFilter.Shape);
+
+            //Folder 1300
+            AddBlockTags(1501, BlockFilter.Decoration);
+            AddBlockTags(1502, BlockFilter.Decoration);
+            AddBlockTags(1503, BlockFilter.Decoration);
+            AddBlockTags(1504, BlockFilter.Decoration);
+            AddBlockTags(1505, BlockFilter.Decoration, BlockFilter.Shape);
+            AddBlockTags(1513, BlockFilter.Decoration, BlockFilter.Shape);
+            AddBlockTags(1516, BlockFilter.Decoration);
+            AddBlockTags(1517, BlockFilter.Decoration);
+            AddBlockTags(1540, BlockFilter.Decoration);
+
+            //Folder 1301
+            AddBlockTags(1532, BlockFilter.Decoration);
+            AddBlockTags(1533, BlockFilter.Decoration);
+            AddBlockTags(1534, BlockFilter.Decoration);
+            AddBlockTags(1535, BlockFilter.Decoration);
+            AddBlockTags(1536, BlockFilter.Decoration);
+            AddBlockTags(1537, BlockFilter.Decoration);
+            AddBlockTags(1538, BlockFilter.Decoration);
+
+            //Folder 1302
+            AddBlockTags(1505, BlockFilter.Decoration);
+            AddBlockTags(1506, BlockFilter.Decoration);
+            AddBlockTags(1507, BlockFilter.Decoration);
+            AddBlockTags(1508, BlockFilter.Decoration);
+            AddBlockTags(1509, BlockFilter.Decoration);
+            AddBlockTags(1510, BlockFilter.Decoration);
+            AddBlockTags(1511, BlockFilter.Decoration);
         }
     }
 }

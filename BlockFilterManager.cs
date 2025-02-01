@@ -32,14 +32,21 @@ namespace BlockFilter
             filters.Add(BlockFilter.HalfPipe, new FilterObject("Wallride"));
             filters.Add(BlockFilter.Special, new FilterObject("Special"));
             filters.Add(BlockFilter.Field, new FilterObject("Field"));
-            filters.Add(BlockFilter.Physics, new FilterObject("Physics"));
+            filters.Add(BlockFilter.Transition, new FilterObject("Transition"));
+
+            filters.Add(BlockFilter.Irregular, new FilterObject("Irregular"));
             filters.Add(BlockFilter.Straight, new FilterObject("Straight"));
             filters.Add(BlockFilter.Curve, new FilterObject("Curve"));
             filters.Add(BlockFilter.Sbend, new FilterObject("S-Bend"));
             filters.Add(BlockFilter.Slope, new FilterObject("Slope"));
             filters.Add(BlockFilter.Tilted, new FilterObject("Tilted"));
-            filters.Add(BlockFilter.Transition, new FilterObject("Transition"));
-            filters.Add(BlockFilter.Irregular, new FilterObject("Irregular"));
+
+            filters.Add(BlockFilter.Interactive, new FilterObject("Interactive"));
+            filters.Add(BlockFilter.Physics, new FilterObject("Physics"));
+            filters.Add(BlockFilter.Building, new FilterObject("Building"));
+            filters.Add(BlockFilter.Decoration, new FilterObject("Decoration"));
+            filters.Add(BlockFilter.Shape, new FilterObject("Shape"));
+
             filters.Add(BlockFilter.ClearAll, new FilterObject("Clear All"));
         }
 
@@ -100,14 +107,19 @@ namespace BlockFilter
             filters[BlockFilter.HalfPipe].Sprite = blockList[20].thumbnail;
             filters[BlockFilter.Special].Sprite = blockList[2].thumbnail;
             filters[BlockFilter.Field].Sprite = blockList[1746].thumbnail;
-            filters[BlockFilter.Physics].Sprite = blockList[1280].thumbnail;
+            filters[BlockFilter.Transition].Sprite = blockList[2261].thumbnail;
+            filters[BlockFilter.Irregular].Sprite = blockList[315].thumbnail;
             filters[BlockFilter.Straight].Sprite = Sprites.straightSprite;
             filters[BlockFilter.Curve].Sprite = Sprites.curveSprite;
             filters[BlockFilter.Sbend].Sprite = Sprites.sbendSprite;
             filters[BlockFilter.Slope].Sprite = Sprites.slopeSprite;
             filters[BlockFilter.Tilted].Sprite = Sprites.tiltSprite;
-            filters[BlockFilter.Transition].Sprite = blockList[2261].thumbnail;
-            filters[BlockFilter.Irregular].Sprite = blockList[315].thumbnail;
+            filters[BlockFilter.Interactive].Sprite = blockList[1280].thumbnail;
+            filters[BlockFilter.Physics].Sprite = blockList[74].thumbnail;
+            filters[BlockFilter.Building].Sprite = blockList[1894].thumbnail;
+            filters[BlockFilter.Decoration].Sprite = blockList[85].thumbnail;
+            filters[BlockFilter.Shape].Sprite = blockList[1291].thumbnail;
+
             filters[BlockFilter.ClearAll].Sprite = Sprites.xSprite;
         }
 
