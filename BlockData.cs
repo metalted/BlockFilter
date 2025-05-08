@@ -1281,6 +1281,9 @@ namespace BlockFilter
             AddBlockTags(2043, BlockFilter.Decoration);
             AddBlockTags(2190, BlockFilter.Shape);
             AddBlockTags(2275, BlockFilter.Decoration);
+            AddBlockTags(2369, BlockFilter.Shape);
+            AddBlockTags(2370, BlockFilter.Shape);
+            AddBlockTags(2371, BlockFilter.Shape);
 
             //Folder 1105
             AddBlockTags(1308, BlockFilter.Shape);
