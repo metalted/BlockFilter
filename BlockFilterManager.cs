@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace BlockFilter
@@ -154,30 +155,9 @@ namespace BlockFilter
                 copy.gameObject.SetActive(true);
 
                 LEV_CustomButton button = copy.GetComponent<LEV_CustomButton>();
-                button.onClick.AddListener(() =>
-                {
-                    if (kvp.Key == BlockFilter.ClearAll)
-                    {
-                        ResetAllSelections();
-                    }
-                    else
-                    {
-                        switch (filters[kvp.Key].State)
-                        {
-                            case FilterState.Off:
-                                filters[kvp.Key].State = FilterState.Enabled;
-                                break;
-                            case FilterState.Enabled:
-                                filters[kvp.Key].State = FilterState.Disabled;
-                                break;
-                            case FilterState.Disabled:
-                                filters[kvp.Key].State = FilterState.Off;
-                                break;
-                        }
-                    }                   
-
-                    instance.CreateBlockGUI();
-                });
+                // Add new handler for clicks
+                BlockClickHandler clickHandler = copy.AddComponent<BlockClickHandler>();
+                clickHandler.Initialize(kvp.Key, this, instance);
 
                 button.transform.GetChild(0).GetComponent<Image>().sprite = filters[kvp.Key].Sprite;
 
@@ -211,6 +191,55 @@ namespace BlockFilter
                 index++;
             }
         }
+        
+        public void HandleLeftClick(BlockFilter key, LEV_Inspector instance)
+        {
+            if (key == BlockFilter.ClearAll)
+            {
+                ResetAllSelections();
+            }
+            else
+            {
+                switch (filters[key].State)
+                {
+                    case FilterState.Off:
+                        filters[key].State = FilterState.Enabled;
+                        break;
+                    case FilterState.Enabled:
+                        filters[key].State = FilterState.Off;
+                        break;
+                    case FilterState.Disabled:
+                        filters[key].State = FilterState.Enabled;
+                        break;
+                }
+            }
+            instance.CreateBlockGUI();
+        }
+
+        public void HandleRightClick(BlockFilter key, LEV_Inspector instance)
+        {
+            if (key == BlockFilter.ClearAll)
+            {
+                ResetAllSelections();
+            }
+            else
+            {
+                switch (filters[key].State)
+                {
+                    case FilterState.Off:
+                        filters[key].State = FilterState.Disabled;
+                        break;
+                    case FilterState.Enabled:
+                        filters[key].State = FilterState.Disabled;
+                        break;
+                    case FilterState.Disabled:
+                        filters[key].State = FilterState.Off;
+                        break;
+                }
+            }
+            instance.CreateBlockGUI();
+        }
+
 
         public void SetButtonVisibility(bool state)
         {
@@ -252,6 +281,32 @@ namespace BlockFilter
             }
 
             return disabled;
+        }
+    }
+    
+    public class BlockClickHandler : MonoBehaviour, IPointerClickHandler
+    {
+        private BlockFilter key;
+        private BlockFilterManager manager;
+        private LEV_Inspector instance;
+
+        public void Initialize(BlockFilter key, BlockFilterManager manager, LEV_Inspector instance)
+        {
+            this.key = key;
+            this.manager = manager;
+            this.instance = instance;
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            if (eventData.button == PointerEventData.InputButton.Left)
+            {
+                manager.HandleLeftClick(key, instance);
+            }
+            else if (eventData.button == PointerEventData.InputButton.Right)
+            {
+                manager.HandleRightClick(key, instance);
+            }
         }
     }
 

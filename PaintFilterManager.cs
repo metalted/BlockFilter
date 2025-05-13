@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace BlockFilter
@@ -160,45 +161,11 @@ namespace BlockFilter
                 copy.gameObject.SetActive(true);
 
                 LEV_CustomButton button = copy.GetComponent<LEV_CustomButton>();
-                button.onClick.AddListener(() =>
-                {
-                    if(kvp.Key == PaintFilter.ClearAll)
-                    {
-                        ResetAllSelections(true);
-                    }
-                    else if(kvp.Key == PaintFilter.Physics || kvp.Key == PaintFilter.Transparent || kvp.Key == PaintFilter.Reflective)
-                    {
-                        switch(filters[kvp.Key].State)
-                        {
-                            case FilterState.Off:
-                                filters[kvp.Key].State = FilterState.Enabled;
-                                break;
-                            case FilterState.Enabled:
-                                filters[kvp.Key].State = FilterState.Disabled;
-                                break;
-                            case FilterState.Disabled:
-                                filters[kvp.Key].State = FilterState.Off;
-                                break;
-                        }
-                    }
-                    else
-                    {
-                        FilterState currentState = filters[kvp.Key].State;
-                        ResetAllSelections(false);
-                        switch(currentState)
-                        {
-                            case FilterState.Off:
-                                filters[kvp.Key].State = FilterState.Enabled;
-                                break;
-                            case FilterState.Enabled:
-                                filters[kvp.Key].State = FilterState.Off;
-                                break;
-                        }
-                        
-                    }
-                    
-                    instance.CreatePaintGUI();
-                });
+                // Add new handler for clicks
+                // Add new handler for clicks
+                // Add new handler for clicks
+                PaintClickHandler clickHandler = copy.AddComponent<PaintClickHandler>();
+                clickHandler.Initialize(kvp.Key, this, instance);
 
                 button.transform.GetChild(0).GetComponent<Image>().sprite = filters[kvp.Key].Sprite;
 
@@ -233,6 +200,86 @@ namespace BlockFilter
             }
         }
 
+        public void HandleLeftClick(PaintFilter key, LEV_Inspector instance)
+        {
+            if (key == PaintFilter.ClearAll)
+            {
+                ResetAllSelections(true);
+            }
+            else if (key == PaintFilter.Physics || key == PaintFilter.Transparent || key == PaintFilter.Reflective)
+            {
+                switch (filters[key].State)
+                {
+                    case FilterState.Off:
+                        filters[key].State = FilterState.Enabled;
+                        break;
+                    case FilterState.Enabled:
+                        filters[key].State = FilterState.Off;
+                        break;
+                    case FilterState.Disabled:
+                        filters[key].State = FilterState.Enabled;
+                        break;
+                }
+            }
+            else
+            {
+                FilterState currentState = filters[key].State;
+                ResetAllSelections(false);
+                switch (currentState)
+                {
+                    case FilterState.Off:
+                        filters[key].State = FilterState.Enabled;
+                        break;
+                    case FilterState.Enabled:
+                        filters[key].State = FilterState.Off;
+                        break;
+                }
+
+            }
+
+            instance.CreatePaintGUI();
+        }
+
+        public void HandleRightClick(PaintFilter key, LEV_Inspector instance)
+        {
+            if(key == PaintFilter.ClearAll)
+            {
+                ResetAllSelections(true);
+            }
+            else if(key == PaintFilter.Physics || key == PaintFilter.Transparent || key == PaintFilter.Reflective)
+            {
+                switch(filters[key].State)
+                {
+                    case FilterState.Off:
+                        filters[key].State = FilterState.Disabled;
+                        break;
+                    case FilterState.Enabled:
+                        filters[key].State = FilterState.Disabled;
+                        break;
+                    case FilterState.Disabled:
+                        filters[key].State = FilterState.Off;
+                        break;
+                }
+            }
+            else
+            {
+                //Allow rightclick to run this off, but not enable it? seems best
+                FilterState currentState = filters[key].State;
+                ResetAllSelections(false);
+                switch(currentState)
+                {
+                    case FilterState.Off:
+                        //filters[key].State = FilterState.Enabled;
+                        break;
+                    case FilterState.Enabled:
+                        filters[key].State = FilterState.Off;
+                        break;
+                }
+                        
+            }
+                    
+            instance.CreatePaintGUI();
+        }
         public void SetButtonVisibility(bool state)
         {
             foreach (KeyValuePair<PaintFilter, FilterObject> kvp in filters)
@@ -273,6 +320,32 @@ namespace BlockFilter
             }
 
             return disabled;
+        }
+    }
+    
+    class PaintClickHandler : MonoBehaviour, IPointerClickHandler
+    {
+        private PaintFilter key;
+        private PaintFilterManager manager;
+        private LEV_Inspector instance;
+
+        public void Initialize(PaintFilter key, PaintFilterManager manager, LEV_Inspector instance)
+        {
+            this.key = key;
+            this.manager = manager;
+            this.instance = instance;
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            if (eventData.button == PointerEventData.InputButton.Left)
+            {
+                manager.HandleLeftClick(key, instance);
+            }
+            else if (eventData.button == PointerEventData.InputButton.Right)
+            {
+                manager.HandleRightClick(key, instance);
+            }
         }
     }
 }
