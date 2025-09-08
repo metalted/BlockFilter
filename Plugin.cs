@@ -14,7 +14,7 @@ namespace BlockFilter
     {
         public const string pluginGUID = "com.metalted.zeepkist.quickfilter";
         public const string pluginName = "QuickFilter";
-        public const string pluginVersion = "1.3";
+        public const string pluginVersion = "1.4";
 
         public static Plugin Instance;
         public LEV_LevelEditorCentral central;

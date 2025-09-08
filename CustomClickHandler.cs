@@ -1,30 +1,32 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace BlockFilter;
-
-public class CustomClickHandler<TFilter, TManager> : MonoBehaviour, IPointerClickHandler where TManager : FilterManager<TFilter>
+namespace BlockFilter
 {
-    private TFilter key;
-    private TManager manager;
-    private LEV_Inspector instance;
 
-    public void Initialize(TFilter key, TManager manager, LEV_Inspector instance)
+    public class CustomClickHandler<TFilter, TManager> : MonoBehaviour, IPointerClickHandler where TManager : FilterManager<TFilter>
     {
-        this.key = key;
-        this.manager = manager;
-        this.instance = instance;
-    }
+        private TFilter key;
+        private TManager manager;
+        private LEV_Inspector instance;
 
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        if (eventData.button == PointerEventData.InputButton.Left)
+        public void Initialize(TFilter key, TManager manager, LEV_Inspector instance)
         {
-            manager.HandleLeftClick(key, instance);
+            this.key = key;
+            this.manager = manager;
+            this.instance = instance;
         }
-        else if (eventData.button == PointerEventData.InputButton.Right)
+
+        public void OnPointerClick(PointerEventData eventData)
         {
-            manager.HandleRightClick(key, instance);
+            if (eventData.button == PointerEventData.InputButton.Left)
+            {
+                manager.HandleLeftClick(key, instance);
+            }
+            else if (eventData.button == PointerEventData.InputButton.Right)
+            {
+                manager.HandleRightClick(key, instance);
+            }
         }
     }
 }

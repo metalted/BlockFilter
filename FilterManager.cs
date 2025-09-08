@@ -1,7 +1,9 @@
-namespace BlockFilter;
-
-public interface FilterManager<TFilter>
+namespace BlockFilter
 {
-    void HandleLeftClick(TFilter key, LEV_Inspector instance);
-    void HandleRightClick(TFilter key, LEV_Inspector instance);
+
+    public interface FilterManager<TFilter>
+    {
+        void HandleLeftClick(TFilter key, LEV_Inspector instance);
+        void HandleRightClick(TFilter key, LEV_Inspector instance);
+    }
 }
